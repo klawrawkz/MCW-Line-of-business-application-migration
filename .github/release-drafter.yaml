@@ -1,0 +1,24 @@
+name-template: 'v$NEXT_MAJOR_VERSION'
+tag-template: 'v$NEXT_MAJOR_VERSION'
+version-template: '$MAJOR'
+categories:
+  - title: '🚀 Features'
+    label: 'feature'
+  - title: '🐛 Bugfixes'
+    label: 'bug'
+  - title: '🧰 Chores'
+    label: 'chore'
+  - title: '🛠 Refactoring'
+    label: 'refactor'
+  - title: '📖 Documentation changes'
+    label: 'docs'
+  - title: '📦️ Dependency updates'
+    label: 'dependency-update'
+change-template: '- $TITLE (#$NUMBER)'
+exclude-labels:
+  - 'skip-changelog'
+template: |
+  ## 🔖 palmtrio v$NEXT_MAJOR_VERSION
+
+  $CHANGES
+
