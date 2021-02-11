@@ -1,4 +1,4 @@
-﻿Start-Transcript "C:\BootstrapSmartHotelHost_log.txt"
+﻿Start-Transcript "C:\BootstrapRootBoySlimHost_log.txt"
 
 $ErrorActionPreference = 'SilentlyContinue'
 
@@ -62,7 +62,7 @@ $trigger = New-ScheduledTaskTrigger -AtStartup
 $principal = New-ScheduledTaskPrincipal -UserID "NT AUTHORITY\SYSTEM" -LogonType ServiceAccount -RunLevel Highest
 Register-ScheduledTask -TaskName "SetUpVMs" -Action $action -Trigger $trigger -Principal $principal
 
-# Install and configure DHCP service (used by Azure Migrate appliance so DNS lookup of 'SmartHotelHost' works)
+# Install and configure DHCP service (used by Azure Migrate appliance so DNS lookup of 'RootBoySlimHost' works)
 Write-Output "Install and configure DHCP service"
 $dnsClient = Get-DnsClient | Where-Object {$_.InterfaceAlias -eq "Ethernet" }
 Install-WindowsFeature -Name "DHCP" -IncludeManagementTools
