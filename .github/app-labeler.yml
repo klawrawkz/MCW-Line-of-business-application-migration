@@ -1,0 +1,47 @@
+# Autolabel the different apps
+activemembers:
+  - website/activemembers/**
+announcements:
+  - website/announcements/**
+documents:
+  - website/documents/**
+education:
+  - website/education/**
+events:
+  - website/events/**
+mailinglists:
+  - website/mailinglists/**
+members:
+  - website/members/**
+merchandise:
+  - website/merchandise/**
+newsletter:
+  - website/newsletters/**
+partners:
+  - website/partners/**
+payments:
+  - website/payments/**
+photos:
+  - website/photos/**
+pizzas:
+  - website/pizzas/**
+push-notifications:
+  - website/pushnotifications/**
+registrations:
+  - website/registrations/**
+singlepages:
+  - website/singlepages/**
+thabloid:
+  - website/thabloid/**
+hands-on-lab:
+  - Hands-on lab/**
+resources:
+  - Hands-on lab/Resources/**
+images:
+  - Hands-on lab/images/**
+white-board-design:
+  - Whiteboard design session/**
+white-board-design-archive:
+  - Whiteboard design session/archive/**
+white-board-design-images:
+  - Whiteboard design session/images/**  
