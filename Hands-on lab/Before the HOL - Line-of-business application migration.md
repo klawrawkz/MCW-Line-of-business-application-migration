@@ -72,24 +72,24 @@ Duration: 60 minutes
 
 ### Task 1: Deploy the on-premises environment
 
-1. Deploy the template **SmartHotelHost.json** to a new resource group. This template deploys a virtual machine running nested Hyper-V, with 4 nested VMs. This comprises the 'on-premises' environment which you will assess and migrate during this lab.
+1. Deploy the template **RootBoySlimHost.json** to a new resource group. This template deploys a virtual machine running nested Hyper-V, with 4 nested VMs. This comprises the 'on-premises' environment which you will assess and migrate during this lab.
 
-    You can deploy the template by selecting the 'Deploy to Azure' button below. You will need to create a new resource group. The suggested resource group name to use is **SmartHotelHostRG**. You will also need to select a location close to you to deploy the template to. Then choose **Review + create** followed by **Create**. 
+    You can deploy the template by selecting the 'Deploy to Azure' button below. You will need to create a new resource group. The suggested resource group name to use is **RootBoySlimHostRG**. You will also need to select a location close to you to deploy the template to. Then choose **Review + create** followed by **Create**. 
 
-    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fcloudworkshop.blob.core.windows.net%2Fline-of-business-application-migration%2Fsept-2020%2FSmartHotelHost.json" target="_blank">![Button to deploy the SmartHotelHost template to Azure.](images/BeforeTheHOL/deploy-to-azure.png "Deploy the SmartHotelHost template to Azure")</a>
+    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fcloudworkshop.blob.core.windows.net%2Fline-of-business-application-migration%2Fsept-2020%2FRootBoySlimHost.json" target="_blank">![Button to deploy the RootBoySlimHost template to Azure.](images/BeforeTheHOL/deploy-to-azure.png "Deploy the RootBoySlimHost template to Azure")</a>
 
     > **Note:** The template will take around 6-7 minutes to deploy. Once template deployment is complete, several additional scripts are executed to bootstrap the lab environment. **Allow at least 1 hour from the start of template deployment for the scripts to run.**
 
 ### Task 2: Verify the on-premises environment
 
-1. Navigate to the **SmartHotelHost** VM that was deployed by the template in the previous step.
+1. Navigate to the **RootBoySlimHost** VM that was deployed by the template in the previous step.
 
 2. Make a note of the public IP address.
 
-3. Open a browser tab and navigate to **http://\<SmartHotelHostIP-Address\>**. You should see the SmartHotel application, which is running on nested VMs within Hyper-V on the SmartHotelHost. (The application doesn't do much: you can refresh the page to see the list of guests or select 'CheckIn' or 'CheckOut' to toggle their status.)
+3. Open a browser tab and navigate to **http://\<RootBoySlimHostIP-Address\>**. You should see the RootBoySlim application, which is running on nested VMs within Hyper-V on the RootBoySlimHost. (The application doesn't do much: you can refresh the page to see the list of guests or select 'CheckIn' or 'CheckOut' to toggle their status.)
 
-    ![Browser screenshot showing the SmartHotel application.](images/BeforeTheHOL/smarthotel.png)
+    ![Browser screenshot showing the RootBoySlim application.](images/BeforeTheHOL/RootBoySlim.png)
 
-    > **Note:** If the SmartHotel application is not shown, wait 10 minutes and try again. It takes **at least 1 hour** from the start of template deployment. You can also check the CPU, network and disk activity levels for the SmartHotelHost VM in the Azure portal, to see if the provisioning is still active.
+    > **Note:** If the RootBoySlim application is not shown, wait 10 minutes and try again. It takes **at least 1 hour** from the start of template deployment. You can also check the CPU, network and disk activity levels for the RootBoySlimHost VM in the Azure portal, to see if the provisioning is still active.
 
 You should follow all steps provided *before* performing the Hands-on lab.

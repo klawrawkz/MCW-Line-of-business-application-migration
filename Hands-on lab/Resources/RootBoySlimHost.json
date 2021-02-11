@@ -19,28 +19,28 @@
         }
     },
     "variables": {
-        "smarthotelhostVMname": "SmartHotelHost",
-        "smarthotelhostNICname": "smarthotelhostnic",
-        "smarthotelhostOSdisk": "[concat(variables('smarthotelhostVMname'),'_OsDisk')]",
-        "smarthotelhostDataDisk": "[concat(variables('smarthotelhostVMname'),'_DataDisk')]",
-        "publicIPAddressName": "smarthotelhostip",
-        "smarthotelVnetName": "smarthotelhostvnet",
-        "smarthotelPrefix": "10.0.0.0/16",
-        "smarthotelSubnetPrefix": "10.0.0.0/24",
-        "smarthotelSubnetName": "hostsubnet",
-        "smarthotelhostNSGName": "smarthotelhostnsg",
+        "RootBoySlimhostVMname": "RootBoySlimHost",
+        "RootBoySlimhostNICname": "RootBoySlimhostnic",
+        "RootBoySlimhostOSdisk": "[concat(variables('RootBoySlimhostVMname'),'_OsDisk')]",
+        "RootBoySlimhostDataDisk": "[concat(variables('RootBoySlimhostVMname'),'_DataDisk')]",
+        "publicIPAddressName": "RootBoySlimhostip",
+        "RootBoySlimVnetName": "RootBoySlimhostvnet",
+        "RootBoySlimPrefix": "10.0.0.0/16",
+        "RootBoySlimSubnetPrefix": "10.0.0.0/24",
+        "RootBoySlimSubnetName": "hostsubnet",
+        "RootBoySlimhostNSGName": "RootBoySlimhostnsg",
         "dmsVnetName": "DMSvnet",
         "dmsPrefix": "10.1.0.0/16",
         "dmsSubnetPrefix": "10.1.0.0/24",
         "dmsSubnetName": "DMS",
         "customScriptFolder": "./sept-2020/",
-        "customScriptUriScriptFileName": "BootstrapSmartHotelHost.ps1",
-        "customScriptUri": "https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020/BootstrapSmartHotelHost.ps1"
+        "customScriptUriScriptFileName": "BootstrapRootBoySlimHost.ps1",
+        "customScriptUri": "https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020/BootstrapRootBoySlimHost.ps1"
     },
     "resources": [
         {
             "type": "Microsoft.Compute/virtualMachines",
-            "name": "[variables('smarthotelhostVMname')]",
+            "name": "[variables('RootBoySlimhostVMname')]",
             "apiVersion": "2018-06-01",
             "location": "[resourceGroup().location]",
             "tags": {},
@@ -57,7 +57,7 @@
                     },
                     "osDisk": {
                         "osType": "Windows",
-                        "name": "[variables('smarthotelhostOSdisk')]",
+                        "name": "[variables('RootBoySlimhostOSdisk')]",
                         "createOption": "FromImage",
                         "caching": "ReadWrite",
                         "managedDisk": {
@@ -68,17 +68,17 @@
                     "dataDisks": [
                         {
                             "lun": 0,
-                            "name": "[variables('smarthotelhostDataDisk')]",
+                            "name": "[variables('RootBoySlimhostDataDisk')]",
                             "createOption": "Attach",
                             "caching": "None",
                             "managedDisk": {
-                                "id": "[resourceId('Microsoft.Compute/disks/', variables('smarthotelhostDataDisk'))]"
+                                "id": "[resourceId('Microsoft.Compute/disks/', variables('RootBoySlimhostDataDisk'))]"
                             }
                         }
                     ]
                 },
                 "osProfile": {
-                    "computerName": "[variables('smarthotelhostVMname')]",
+                    "computerName": "[variables('RootBoySlimhostVMname')]",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]",
                     "windowsConfiguration": {
@@ -90,14 +90,14 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('smarthotelhostNICname'))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('RootBoySlimhostNICname'))]"
                         }
                     ]
                 }
             },
             "dependsOn": [
-                "[variables('smarthotelhostNICname')]",
-                "[variables('smarthotelhostDataDisk')]"
+                "[variables('RootBoySlimhostNICname')]",
+                "[variables('RootBoySlimhostDataDisk')]"
             ],
             "resources": [
                 {
@@ -106,7 +106,7 @@
                     "apiVersion": "2016-03-30",
                     "location": "[resourceGroup().location]",
                     "dependsOn": [
-                        "[resourceId('Microsoft.Compute/virtualMachines', variables('smarthotelhostVMname'))]"
+                        "[resourceId('Microsoft.Compute/virtualMachines', variables('RootBoySlimhostVMname'))]"
                     ],
                     "tags": {
                         "displayName": "ConfigureHost"
@@ -128,7 +128,7 @@
         },
         {
             "type": "Microsoft.Compute/disks",
-            "name": "[variables('smarthotelhostDataDisk')]",
+            "name": "[variables('RootBoySlimhostDataDisk')]",
             "apiVersion": "2017-03-30",
             "location": "[resourceGroup().location]",
             "sku": {
@@ -143,7 +143,7 @@
         },
         {
             "type": "Microsoft.Network/networkInterfaces",
-            "name": "[variables('smarthotelhostNICname')]",
+            "name": "[variables('RootBoySlimhostNICname')]",
             "apiVersion": "2018-08-01",
             "location": "[resourceGroup().location]",
             "tags": {},
@@ -157,7 +157,7 @@
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
                             },
                             "subnet": {
-                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('smarthotelVnetName'), variables('smarthotelSubnetname'))]"
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('RootBoySlimVnetName'), variables('RootBoySlimSubnetname'))]"
                             },
                             "primary": true,
                             "privateIPAddressVersion": "IPv4"
@@ -166,23 +166,23 @@
                 ],
                 "enableAcceleratedNetworking": true,
                 "networkSecurityGroup": {
-                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('smarthotelhostNSGName'))]"
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('RootBoySlimhostNSGName'))]"
                 },
                 "primary": true,
                 "virtualMachine": {
-                    "id": "[resourceId('Microsoft.Compute/virtualMachines', variables('smarthotelhostVMname'))]"
+                    "id": "[resourceId('Microsoft.Compute/virtualMachines', variables('RootBoySlimhostVMname'))]"
                 }
             },
             "dependsOn": [
                 "[variables('publicIPAddressName')]",
-                "[variables('smarthotelhostNSGName')]",
-                "[variables('smarthotelVnetName')]"
+                "[variables('RootBoySlimhostNSGName')]",
+                "[variables('RootBoySlimVnetName')]"
 
             ]
         },
         {
             "type": "Microsoft.Network/networkSecurityGroups",
-            "name": "[variables('smarthotelhostNSGName')]",
+            "name": "[variables('RootBoySlimhostNSGName')]",
             "apiVersion": "2018-08-01",
             "location": "[resourceGroup().location]",
             "tags": {},
@@ -241,7 +241,7 @@
                 "publicIPAllocationMethod": "Dynamic",
                 "idleTimeoutInMinutes": 4,
                 "dnsSettings": {
-                    "domainNameLabel": "[toLower(concat(variables('smarthotelhostVMname'), '-', substring(uniqueString(resourceGroup().id),0,4)))]"
+                    "domainNameLabel": "[toLower(concat(variables('RootBoySlimhostVMname'), '-', substring(uniqueString(resourceGroup().id),0,4)))]"
                 },
                 "ipTags": []
             }
@@ -249,20 +249,20 @@
         {
             "apiVersion": "2016-03-30",
             "type": "Microsoft.Network/virtualNetworks",
-            "name": "[variables('smarthotelVnetName')]",
+            "name": "[variables('RootBoySlimVnetName')]",
             "location": "[resourceGroup().location]",
             "tags": {},
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "[variables('smarthotelPrefix')]"
+                        "[variables('RootBoySlimPrefix')]"
                     ]
                 },
                 "subnets": [
                     {
-                        "name": "[variables('smarthotelSubnetName')]",
+                        "name": "[variables('RootBoySlimSubnetName')]",
                         "properties": {
-                            "addressPrefix": "[variables('smarthotelSubnetPrefix')]"
+                            "addressPrefix": "[variables('RootBoySlimSubnetPrefix')]"
                         }
                     }
                 ]
@@ -293,7 +293,7 @@
         {
             "apiVersion": "2016-06-01",
             "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
-            "name": "[concat(variables('smarthotelVnetName'),'/host2dms')]",
+            "name": "[concat(variables('RootBoySlimVnetName'),'/host2dms')]",
             "location": "[resourceGroup().location]",
             "properties": {
               "allowVirtualNetworkAccess": true,
@@ -305,7 +305,7 @@
               }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', variables('smarthotelVnetName'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('RootBoySlimVnetName'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('dmsVnetName'))]"
             ]
         },
@@ -320,11 +320,11 @@
               "allowGatewayTransit": false,
               "useRemoteGateways": false,
               "remoteVirtualNetwork": {
-                "id": "[resourceId('Microsoft.Network/virtualNetworks', variables('smarthotelVnetName'))]"
+                "id": "[resourceId('Microsoft.Network/virtualNetworks', variables('RootBoySlimVnetName'))]"
               }
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks', variables('smarthotelVnetName'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', variables('RootBoySlimVnetName'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks', variables('dmsVnetName'))]"
             ]
         }
