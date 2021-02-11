@@ -57,7 +57,7 @@ Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/in
     - [Task 6: Server migration](#task-6-server-migration)
     - [Task 7: Enable Azure Bastion](#task-7-enable-azure-bastion)
     - [Task 8: Configure the database connection](#task-8-configure-the-database-connection)
-    - [Task 9: Configure the public IP address and test the SmartHotel application](#task-9-configure-the-public-ip-address-and-test-the-smarthotel-application)
+    - [Task 9: Configure the public IP address and test the RootBoySlim application](#task-9-configure-the-public-ip-address-and-test-the-RootBoySlim-application)
     - [Task 10: Post-migration steps](#task-10-post-migration-steps)
   - [After the hands-on lab](#after-the-hands-on-lab)
     - [Task 1: Clean up resources](#task-1-clean-up-resources)
@@ -74,19 +74,19 @@ After this hands-on lab, you will know the role of Azure Migrate and related mig
 
 ## Overview
 
-Before the lab, you will have pre-deployed an on-premises infrastructure hosted in Hyper-V.  This infrastructure is hosting a multi-tier application called 'SmartHotel', using Hyper-V VMs for each of the application tiers.
+Before the lab, you will have pre-deployed an on-premises infrastructure hosted in Hyper-V.  This infrastructure is hosting a multi-tier application called 'RootBoySlim', using Hyper-V VMs for each of the application tiers.
 
 During the lab, you will migrate this entire application stack to Azure. This will include assessing the on-premises application using Azure Migrate; assessing the database migration using Microsoft Data Migration Assistant (DMA); migrating the database using the Azure Database Migration Service (DMS); and migrating the web and application tiers using Azure Migrate: Server Migration. This last step includes migration of both Windows and Linux VMs.
 
 ## Solution architecture
 
-The SmartHotel application comprises 4 VMs hosted in Hyper-V:
+The RootBoySlim application comprises 4 VMs hosted in Hyper-V:
 
-- **Database tier** Hosted on the smarthotelSQL1 VM, which is running Windows Server 2016 and SQL Server 2017.
+- **Database tier** Hosted on the RootBoySlimSQL1 VM, which is running Windows Server 2016 and SQL Server 2017.
 
-- **Application tier** Hosted on the smarthotelweb2 VM, which is running Windows Server 2012R2.
+- **Application tier** Hosted on the RootBoySlimweb2 VM, which is running Windows Server 2012R2.
 
-- **Web tier** Hosted on the smarthotelweb1 VM, which is running Windows Server 2012R2.
+- **Web tier** Hosted on the RootBoySlimweb1 VM, which is running Windows Server 2012R2.
 
 - **Web proxy** Hosted on the  UbuntuWAF VM, which is running Nginx on Ubuntu 18.04 LTS.
 
@@ -94,7 +94,7 @@ For simplicity, there is no redundancy in any of the tiers.
 
 >**Note:** For convenience, the Hyper-V host itself is deployed as an Azure VM. For the purposes of the lab, you should think of it as an on-premises machine.
 
-![A slide shows the on-premises SmartHotel application architecture. This comprises a SmartHotelHost server running Microsoft Hyper-V. This server hosts 4 VMs: UbuntuWAF, SmartHotelWeb1, SmartHotelWeb2, and SmartHotelSQL1. A series of arrows show how these VMs will be migrated to Azure. The first 3 VMs have an arrow labeled 'Azure Migrate: Server Migration' pointing to 3 similarly-labeled VMs in Azure. The last VM, SmartHotelSQL1, has an arrow labeled 'Azure Database Migration Service' pointing to an Azure SQL Database. A third arrow labeled 'Azure Migrate: Server Assessment' and 'Data Migration Assistant (DMA)' points from all 4 on-premises VMs to an Azure Migrate dashboard showing migration readiness.](images/overview.png "SmartHotel Migration Overview")
+![A slide shows the on-premises RootBoySlim application architecture. This comprises a RootBoySlimHost server running Microsoft Hyper-V. This server hosts 4 VMs: UbuntuWAF, RootBoySlimWeb1, RootBoySlimWeb2, and RootBoySlimSQL1. A series of arrows show how these VMs will be migrated to Azure. The first 3 VMs have an arrow labeled 'Azure Migrate: Server Migration' pointing to 3 similarly-labeled VMs in Azure. The last VM, RootBoySlimSQL1, has an arrow labeled 'Azure Database Migration Service' pointing to an Azure SQL Database. A third arrow labeled 'Azure Migrate: Server Assessment' and 'Data Migration Assistant (DMA)' points from all 4 on-premises VMs to an Azure Migrate dashboard showing migration readiness.](images/overview.png "RootBoySlim Migration Overview")
 
 Throughout this lab, you will use Azure Migrate as your primary tool for assessment and migration. In conjunction with Azure Migrate, you will also use a range of other tools, as detailed below.
 
@@ -136,9 +136,9 @@ In this task, you will create the Azure Migrate project and select the assessmen
 
     ![Screenshot of the Azure Migrate overview blade.](images/Exercise1/azure-migrate-overview.png "Azure Migrate Overview blade")
 
-3. Select **Assess and migrate servers**, then **Create project**.  Select your subscription and create a new resource group named **AzureMigrateRG**. Enter **SmartHotelMigration** as the Migrate project name, and choose a geography close to you to store the migration assessment data. Then select **Create**.
+3. Select **Assess and migrate servers**, then **Create project**.  Select your subscription and create a new resource group named **AzureMigrateRG**. Enter **RootBoySlimMigration** as the Migrate project name, and choose a geography close to you to store the migration assessment data. Then select **Create**.
 
-    >**Note**: If you are running this lab in a shared subscription you will need to use a migrate project name that is unique in the subscription. Append characters to the end of migrate project name to make your project name unique. For example: **SmartHotelMigration1234**.
+    >**Note**: If you are running this lab in a shared subscription you will need to use a migrate project name that is unique in the subscription. Append characters to the end of migrate project name to make your project name unique. For example: **RootBoySlimMigration1234**.
 
 
     ![Screenshot of the Azure Migrate 'Create project' blade, showing the Azure Migrate project name, resource group and geography.](images/Exercise1/create-project.png "Azure Migrate - Create project")
@@ -159,11 +159,11 @@ In this task, you will deploy and configure the Azure Migrate appliance in the o
 
     ![Screenshot of the Azure Migrate 'Discover machines' blade, with Hyper-V selected.](images/Exercise1/h-v.png "Hyper-V virtualization option")
 
-2.  In **1: Generate Azure Migrate project key**, provide **SmartHotelAppl** as name for the Azure Migrate appliance that you will set up for discovery of Hyper-V VMs. Select **Generate key** to start the creation of the required Azure resources. 
+2.  In **1: Generate Azure Migrate project key**, provide **RootBoySlimAppl** as name for the Azure Migrate appliance that you will set up for discovery of Hyper-V VMs. Select **Generate key** to start the creation of the required Azure resources. 
 
     ![Screenshot of the Azure Migrate 'Discover machines' blade showing the 'Generate Azure Migrate project key' section.](images/Exercise1/gen-key.png "Generate Azure Migrate project key")
 
-    >**Note**: If you are running this lab in a shared Azure Migrate project, you will need to provide an appliance name that is unique in the project. Append characters to the end of appliance name to make your appliance name unique. For example: **SmartHotelAppl123**.
+    >**Note**: If you are running this lab in a shared Azure Migrate project, you will need to provide an appliance name that is unique in the project. Append characters to the end of appliance name to make your appliance name unique. For example: **RootBoySlimAppl123**.
 
 3.  **Wait** for the key to be generated, then copy the **Azure Migrate project key** to your clipboard.
 
@@ -171,15 +171,15 @@ In this task, you will deploy and configure the Azure Migrate appliance in the o
 
 4.  Read through the instructions on how to download, deploy and configure the Azure Migrate appliance. Close the 'Discover machines' blade (do **not** download the .VHD file or .ZIP file, the .VHD has already been downloaded for you).
 
-5. In a separate browser tab, navigate to the Azure portal. In the global search box, enter **SmartHotelHost**, then select the **SmartHotelHost** virtual machine.
+5. In a separate browser tab, navigate to the Azure portal. In the global search box, enter **RootBoySlimHost**, then select the **RootBoySlimHost** virtual machine.
 
-    ![Screenshot of the Azure portal search box, searching for the SmartHotelHost virtual machine.](images/Exercise1/find-smarthotelhost.png "Search for SmartHotelHost")
+    ![Screenshot of the Azure portal search box, searching for the RootBoySlimHost virtual machine.](images/Exercise1/find-RootBoySlimhost.png "Search for RootBoySlimHost")
 
 6. Select **Connect**, select **RDP**, then download the RDP file and connect to the virtual machine using username **demouser** and password **demo!pass123**.
 
-7. In Server Manager, select **Tools**, then **Hyper-V Manager** (if Server Manager does not open automatically, open it by selecting **Start**, then **Server Manager**). In Hyper-V Manager, select **SMARTHOTELHOST**. You should now see a list of the four VMs that comprise the on-premises SmartHotel application.
+7. In Server Manager, select **Tools**, then **Hyper-V Manager** (if Server Manager does not open automatically, open it by selecting **Start**, then **Server Manager**). In Hyper-V Manager, select **RootBoySlimHOST**. You should now see a list of the four VMs that comprise the on-premises RootBoySlim application.
 
-    ![Screenshot of Hyper-V Manager on the SmartHotelHost, showing 4 VMs: smarthotelSQL1, smarthotelweb1, smarthotelweb2 and UbuntuWAF.](images/Exercise1/hyperv-vm-list.png "Hyper-V Manager")
+    ![Screenshot of Hyper-V Manager on the RootBoySlimHost, showing 4 VMs: RootBoySlimSQL1, RootBoySlimweb1, RootBoySlimweb2 and UbuntuWAF.](images/Exercise1/hyperv-vm-list.png "Hyper-V Manager")
 
 You will now deploy the Azure Migrate appliance virtual machine.  Normally, you would first need to download the .ZIP file containing the appliance to your Hyper-V host, and unzip it. To save time, these steps have been completed for you.
 
@@ -203,9 +203,9 @@ You will now deploy the Azure Migrate appliance virtual machine.  Normally, you 
 
     > **Note**:  The Azure Migrate appliance needs access to the Internet to upload data to Azure. It also needs access to the Hyper-V host. However, it does not need direct access to the application VMs running on the Hyper-V host. To protect the application environment, the Azure Migrate Appliance should be deployed to a separate subnet within Hyper-V, rather than in the same subnet as your application. 
     >
-    > The Hyper-V environment has a NAT network using the IP address space 192.168.0.0/16. The internal NAT switch used by the SmartHotel application uses the subnet 192.168.0.0/24, and each VM in the application has been assigned a static IP address from this subnet.
+    > The Hyper-V environment has a NAT network using the IP address space 192.168.0.0/16. The internal NAT switch used by the RootBoySlim application uses the subnet 192.168.0.0/24, and each VM in the application has been assigned a static IP address from this subnet.
     >
-    > The Azure Migrate Appliance will be connected to a separate subnet 192.168.1.0/24, which has been set up for you. Using the 'Azure Migrate Switch' connects the appliance to this subnet. The appliance is assigned an IP address from this subnet using a DHCP service running on the SmartHotelHost.
+    > The Azure Migrate Appliance will be connected to a separate subnet 192.168.1.0/24, which has been set up for you. Using the 'Azure Migrate Switch' connects the appliance to this subnet. The appliance is assigned an IP address from this subnet using a DHCP service running on the RootBoySlimHost.
 
 14. Review the summary page, then select **Finish** to create the Azure Migrate appliance VM.
 
@@ -289,9 +289,9 @@ In this task, you will configure the Azure Migrate appliance and use it to compl
 
     ![Screenshot of the Azure Migrate appliance configuration wizard, showing the 'Add discovery source' button.](images/Exercise1/add-disc1.png "Add discovery source")
 
-14. Select **Add single item**, select **hostlogin** as the friendly name, and enter **SmartHotelHost** under 'IP Address / FQDN'.
+14. Select **Add single item**, select **hostlogin** as the friendly name, and enter **RootBoySlimHost** under 'IP Address / FQDN'.
 
-    ![Screenshot of the Azure Migrate appliance configuration wizard, showing the 'Add discovery source' panel.](images/Exercise1/add-disc2.png "Discovery source - SmartHotelHost")
+    ![Screenshot of the Azure Migrate appliance configuration wizard, showing the 'Add discovery source' panel.](images/Exercise1/add-disc2.png "Discovery source - RootBoySlimHost")
 
     > **Note:** You can either **Add single item** at a time or **Add multiple items** in one go. There is also an option to provide Hyper-V host/cluster details through **Import CSV**.
 
@@ -324,13 +324,13 @@ In this task you configured the Azure Migrate appliance in the on-premises Hyper
 
 ### Task 4: Create a migration assessment
 
-In this task, you will use Azure Migrate to create a migration assessment for the SmartHotel application, using the data gathered during the discovery phase.
+In this task, you will use Azure Migrate to create a migration assessment for the RootBoySlim application, using the data gathered during the discovery phase.
 
 1. Continuing from Task 3, select **Assess** under **Azure Migrate: Server Assessment** to start a new migration assessment.
 
     ![Screenshot of the Azure Migrate portal blade, with the '+Assess' button highlighted.](images/Exercise1/start-assess.png "Start assessment")
 
-2. On the Assess servers blade, enter **SmartHotelAssessment** as the assessment name.
+2. On the Assess servers blade, enter **RootBoySlimAssessment** as the assessment name.
 
     ![Screenshot of the Azure Migrate 'Assess servers' blade, showing the assessment name.](images/Exercise1/assess-servers-1.png "Assess servers - assessment name")
 
@@ -342,11 +342,11 @@ In this task, you will use Azure Migrate to create a migration assessment for th
 
     ![Screenshot of the Azure Migrate 'Assessment properties' blade, showing a wide range of migration assessment settings.](images/Exercise1/assessment-properties.png "Assessment properties")
 
-5. Select **Next** to move to the **Select machines to assess** tab. Choose **Create New** and enter the group name **SmartHotel VMs**. Select the **smarthotelweb1**, **smarthotelweb2** and **UbuntuWAF** VMs.
+5. Select **Next** to move to the **Select machines to assess** tab. Choose **Create New** and enter the group name **RootBoySlim VMs**. Select the **RootBoySlimweb1**, **RootBoySlimweb2** and **UbuntuWAF** VMs.
 
-    ![Screenshot of the Azure Migrate 'Assess servers' page. A new server group containing servers smarthotelweb1, smarthotelweb2, and UbuntuWAF.](images/Exercise1/assessment-vms.png "Assessment VM group")
+    ![Screenshot of the Azure Migrate 'Assess servers' page. A new server group containing servers RootBoySlimweb1, RootBoySlimweb2, and UbuntuWAF.](images/Exercise1/assessment-vms.png "Assessment VM group")
 
-    **Note:** There is no need to include the **smarthotelSQL1** or **AzureMigrateAppliance** VMs in the assessment, since they will not be migrated to Azure. (The SQL Server will be migrated to the SQL Database service and the Azure Migrate Appliance is only used for migration assessment.)
+    **Note:** There is no need to include the **RootBoySlimSQL1** or **AzureMigrateAppliance** VMs in the assessment, since they will not be migrated to Azure. (The SQL Server will be migrated to the SQL Database service and the Azure Migrate Appliance is only used for migration assessment.)
 
 6. Select **Next**, followed by **Create assessment**. On the **Azure Migrate - Servers** blade, select **Refresh** periodically until the number of assessments shown is **1**. This may take several minutes.
 
@@ -358,7 +358,7 @@ In this task, you will use Azure Migrate to create a migration assessment for th
 
 8. Take a moment to study the assessment overview.
 
-    ![Screenshot showing an Azure Migrate assessment overview for the SmartHotel application.](images/Exercise1/assessment-overview.png "Assessment - Overview")
+    ![Screenshot showing an Azure Migrate assessment overview for the RootBoySlim application.](images/Exercise1/assessment-overview.png "Assessment - Overview")
 
 9. Select **Edit properties**. Note how you can now modify the assessment properties you chose earlier. Change a selection of settings, and **Save** your changes. After a few moments, the assessment report will update to reflect your changes.
 
@@ -386,9 +386,9 @@ When migrating a workload to Azure, it is important to understand all workload d
 
 In this task, you will configure the Azure Migrate dependency visualization feature. This requires you to first create a Log Analytics workspace, and then to deploy agents on the to-be-migrated VMs.
 
-1. Return to the **Azure Migrate** blade in the Azure Portal, and select **Servers**. Under **Azure Migrate: Server Assessment** select **Groups**, then select the **SmartHotel VMs** group to see the group details. Note that each VM has their **Dependencies** status as **Requires agent installation**. Select **Requires agent installation** for the **smarthotelweb1** VM.
+1. Return to the **Azure Migrate** blade in the Azure Portal, and select **Servers**. Under **Azure Migrate: Server Assessment** select **Groups**, then select the **RootBoySlim VMs** group to see the group details. Note that each VM has their **Dependencies** status as **Requires agent installation**. Select **Requires agent installation** for the **RootBoySlimweb1** VM.
 
-    ![Screenshot showing the SmartHotel VMs group. Each VM has dependency status 'Requires agent installation'.](images/Exercise1/requires-agent-installation.png "SmartHotel VMs server group")
+    ![Screenshot showing the RootBoySlim VMs group. Each VM has dependency status 'Requires agent installation'.](images/Exercise1/requires-agent-installation.png "RootBoySlim VMs server group")
 
 2. On the **Dependencies** blade, select **Configure OMS workspace**.
 
@@ -406,9 +406,9 @@ In this task, you will configure the Azure Migrate dependency visualization feat
    
     ![Screenshot of the Azure Migrate 'Dependencies' blade with the 4 agent download links highlighted.](images/Exercise1/agent-links.png "Agent download links")
 
-6. Return to the RDP session with the **SmartHotelHost**. In **Hyper-V Manager**, select **smarthotelweb1** and select **Connect**.
+6. Return to the RDP session with the **RootBoySlimHost**. In **Hyper-V Manager**, select **RootBoySlimweb1** and select **Connect**.
 
-    ![Screenshot from Hyper-V manager highlighting the 'Connect' button for the smarthotelweb1 VM.](images/Exercise1/connect-web1.png "Connect to smarthotelweb1")
+    ![Screenshot from Hyper-V manager highlighting the 'Connect' button for the RootBoySlimweb1 VM.](images/Exercise1/connect-web1.png "Connect to RootBoySlimweb1")
 
 7. Select **Connect** again when prompted and log in to the **Administrator** account using the password **demo!pass123**.
 
@@ -428,15 +428,15 @@ In this task, you will configure the Azure Migrate dependency visualization feat
 
     > **Note:** You do not need to configure the workspace ID and key when installing the Dependency Agent, since it uses the same settings as the Microsoft Monitoring Agent, which must be installed beforehand.
 
-11. Close the virtual machine connection window for the **smarthotelweb1** VM.  Connect to the **smarthotelweb2** VM and repeat the installation process (steps 8-10) for both agents (the administrator password is the same as for smarthotelweb1).
+11. Close the virtual machine connection window for the **RootBoySlimweb1** VM.  Connect to the **RootBoySlimweb2** VM and repeat the installation process (steps 8-10) for both agents (the administrator password is the same as for RootBoySlimweb1).
 
 You will now deploy the Linux versions of the Microsoft Monitoring Agent and Dependency Agent on the **UbuntuWAF** VM. To do so, you will first connect to the UbuntuWAF remotely using an SSH session.
 
-12. Return to the RDP session with the **SmartHotelHost** and open a command prompt using the desktop shortcut.  
+12. Return to the RDP session with the **RootBoySlimHost** and open a command prompt using the desktop shortcut.  
 
-    > **Note**: The SmartHotelHost runs Windows Server 2019 with the Windows Subsystem for Linux enabled. This allows the command prompt to be used as an SSH client. More info of supported Linux on Azure can be found here: https://Azure.com/Linux. 
+    > **Note**: The RootBoySlimHost runs Windows Server 2019 with the Windows Subsystem for Linux enabled. This allows the command prompt to be used as an SSH client. More info of supported Linux on Azure can be found here: https://Azure.com/Linux. 
 
-13. Enter the following command to connect to the **UbuntuWAF** VM running in Hyper-V on the SmartHotelHost:
+13. Enter the following command to connect to the **UbuntuWAF** VM running in Hyper-V on the RootBoySlimHost:
 
     ```bash
     ssh demouser@192.168.0.8
@@ -480,7 +480,7 @@ You will now deploy the Linux versions of the Microsoft Monitoring Agent and Dep
 
     ![Screenshot showing that the Dependency Agent install on Linux was successful.](images/Exercise1/da-linux-done.png "Dependency Agent installation was successful")
 
-20. The agent installation is now complete. Next, you need to generate some traffic on the SmartHotel application so the dependency visualization has some data to work with. Browse to the public IP address of the SmartHotelHost, and spend a few minutes refreshing the page and checking guests in and out.
+20. The agent installation is now complete. Next, you need to generate some traffic on the RootBoySlim application so the dependency visualization has some data to work with. Browse to the public IP address of the RootBoySlimHost, and spend a few minutes refreshing the page and checking guests in and out.
     
 #### Task summary <!-- omit in toc -->
 
@@ -490,7 +490,7 @@ In this task you configured the Azure Migrate dependency visualization feature, 
 
 In this task, you will explore the dependency visualization feature of Azure Migrate. This feature uses data gathered by the dependency agent you installed in Task 5.
 
-1. Return to the Azure Portal and refresh the Azure Migrate **SmartHotel VMs** VM group blade. The 3 VMs on which the dependency agent was installed should now show their status as 'Installed'. (If not, refresh the page **using the browser refresh button**, not the refresh button in the blade.  It may take up to **5 minutes** after installation for the status to be updated.)
+1. Return to the Azure Portal and refresh the Azure Migrate **RootBoySlim VMs** VM group blade. The 3 VMs on which the dependency agent was installed should now show their status as 'Installed'. (If not, refresh the page **using the browser refresh button**, not the refresh button in the blade.  It may take up to **5 minutes** after installation for the status to be updated.)
 
     ![Screenshot showing the dependency agent installed on each VM in the Azure Migrate VM group.](images/Exercise1/dependency-viz-installed.png "Dependency agent installed")
 
@@ -556,13 +556,13 @@ In this task you will create a new Azure SQL database to migrate the on-premises
 
     - Subscription: **Select your subscription**.
   
-    - Resource group: (create new) **SmartHotelDBRG**
+    - Resource group: (create new) **RootBoySlimDBRG**
   
-    - Database name: **smarthoteldb**
+    - Database name: **RootBoySlimdb**
   
     - Server: Select **Create new** and fill in the New server blade as follows then select **OK**:
   
-        - Server name: **smarthoteldb\[unique number\]**
+        - Server name: **RootBoySlimdb\[unique number\]**
   
         - Server admin login: **demouser**
   
@@ -570,7 +570,7 @@ In this task you will create a new Azure SQL database to migrate the on-premises
   
         - Location: **IMPORTANT: For most users, select the same region you used when you started your lab - this makes migration faster. If you are using an Azure Pass subscription, choose a different region to stay within the Total Regional vCPU limit.**
 
-    > **Note**: You can verify the location by opening another browser tab, navigating to https://portal.azure.com and selecting Virtual Machines on the left navigation. Use the same region as the **SmartHotelHost** virtual machine.
+    > **Note**: You can verify the location by opening another browser tab, navigating to https://portal.azure.com and selecting Virtual Machines on the left navigation. Use the same region as the **RootBoySlimHost** virtual machine.
 
     - Use SQL elastic pool: **No**
   
@@ -598,7 +598,7 @@ In this task you will create an Azure Database Migration Service resource. This 
 
 > **Note**: The Azure Database Migrate Service (DMS) requires network access to your on-premises database to retrieve the data to transfer. To achieve this access, the DMS is deployed into an Azure VNet. You are then responsible for connecting that VNet securely to your database, for example by using a Site-to-Site VPN or ExpressRoute connection.
 >
-> In this lab, the 'on-premises' environment is simulated by a Hyper-V host running in an Azure VM. This VM is deployed to the 'smarthotelvnet' VNet. The DMS will be deployed to a separate VNet called 'DMSVnet'. To simulate the on-premises connection, these two VNet have been peered.
+> In this lab, the 'on-premises' environment is simulated by a Hyper-V host running in an Azure VM. This VM is deployed to the 'RootBoySlimvnet' VNet. The DMS will be deployed to a separate VNet called 'DMSVnet'. To simulate the on-premises connection, these two VNet have been peered.
 
 1. Return to the cloud shell browser tab you used in task 1 to register the Microsoft.DataMigration resource provider. Check that the registration has been completed by running the following command before proceeding further.
 
@@ -620,9 +620,9 @@ In this task you will create an Azure Database Migration Service resource. This 
   
     - Resource group: **AzureMigrateRG**
   
-    - Service Name: **SmartHotelDBMigration**
+    - Service Name: **RootBoySlimDBMigration**
   
-    - Location: **Choose the same region as the SmartHotel host**.
+    - Location: **Choose the same region as the RootBoySlim host**.
 
     - Service mode: **Azure**
   
@@ -630,7 +630,7 @@ In this task you will create an Azure Database Migration Service resource. This 
 
     ![Screenshot showing the Create DMS 'Basics' tab.](images/Exercise2/create-dms.png "Create DMS - Basics")
 
-5. Select **Next: Networking** to move to the **Networking** tab, and select the **DMSvnet/DMS** virtual network and subnet in the **SmartHotelHostRG** resource group.
+5. Select **Next: Networking** to move to the **Networking** tab, and select the **DMSvnet/DMS** virtual network and subnet in the **RootBoySlimHostRG** resource group.
    
     ![Screenshot showing the Create DMS 'Networking' tab.](images/Exercise2/create-dms-network.png "Create DMS - Networking")
 
@@ -664,19 +664,19 @@ In this task you will install and use Microsoft Data Migration Assistant (DMA) t
 
 5. Select **Download** to open the Data Migration Assistant download page. Copy the page URL to the clipboard.
 
-6. Return to your remote desktop session with the **SmartHotelHost** VM. Open **Chrome** from the desktop and paste the Data Migration Assistant download URL into the address bar. Download and install the Data Migration Assistant, but do not launch it yet.
+6. Return to your remote desktop session with the **RootBoySlimHost** VM. Open **Chrome** from the desktop and paste the Data Migration Assistant download URL into the address bar. Download and install the Data Migration Assistant, but do not launch it yet.
 
-7.  From within **SmartHotelHost**, open **Windows Explorer** and navigate to the **C:\\Program Files\\Microsoft Data Migration Assistant** folder. Open the **Dma.exe.config** file using Notepad. Search for **AzureMigrate** and remove the **\<\!--** and **--\>** around the line setting the **EnableAssessmentUploadToAzureMigrate** key. **Save** the file and close Notepad when done.
+7.  From within **RootBoySlimHost**, open **Windows Explorer** and navigate to the **C:\\Program Files\\Microsoft Data Migration Assistant** folder. Open the **Dma.exe.config** file using Notepad. Search for **AzureMigrate** and remove the **\<\!--** and **--\>** around the line setting the **EnableAssessmentUploadToAzureMigrate** key. **Save** the file and close Notepad when done.
 
   ![Screenshot showing the Dma.exe.config setting enabling upload to Azure Migrate.](images/Exercise2/dma-enable-upload.png "Dma.exe.config file")
 
-8.  From within **SmartHotelHost** launch **Microsoft Data Migration Assistant** using the desktop icon. 
+8.  From within **RootBoySlimHost** launch **Microsoft Data Migration Assistant** using the desktop icon. 
 
 9.  In the Data Migration Assistant, select the **+ New** icon.  Fill in the project details as follows:
 
     - Project type: **Assessment**
   
-    - Project name: **SmartHotelAssessment**
+    - Project name: **RootBoySlimAssessment**
   
     - Assessment type: **Database Engine**
   
@@ -706,7 +706,7 @@ In this task you will install and use Microsoft Data Migration Assistant (DMA) t
 
     ![Screenshot showing the DMA connect to a server dialog.](images/Exercise2/connect-to-a-server.png "Connect to server")
 
-13. In the **Add sources** dialog box, select **SmartHotel.Registration**, then select **Add**.
+13. In the **Add sources** dialog box, select **RootBoySlim.Registration**, then select **Add**.
 
     ![Screenshot of the DMA showing the 'Add sources' dialog.](images/Exercise2/add-sources.png "Add sources")
 
@@ -746,15 +746,15 @@ In subsequent tasks, you will use this project to migrate both the database sche
 
 We'll start by creating the private endpoint that allows the DMS to access the database server.
 
-1. In the Azure portal, navigate to the **SmartHotelHostDBRG** resource group, and then to the database server.
+1. In the Azure portal, navigate to the **RootBoySlimHostDBRG** resource group, and then to the database server.
 
 2. Select **Private endpoint connections** under **Security**, then **+ Private endpoint**.
 
 3. On the **Basics** tab that appears, enter the following configuration then select **Next: Resource**. 
 
-    - Resource group: **SmartHotelDBRG**
+    - Resource group: **RootBoySlimDBRG**
   
-    - Name: **SmartHotel-DB-for-DMS**
+    - Name: **RootBoySlim-DB-for-DMS**
   
     - Region: **Select the same location as the DMSvnet (Should be the region closest to you)**.
   
@@ -832,9 +832,9 @@ We'll start by creating the private endpoint that allows the DMS to access the d
 
     > **Note**: The DMS service connects to the Hyper-V host, which has been pre-configured with a NAT rule to forward incoming SQL requests (TCP port 1433) to the SQL Server VM. In a real-world migration, the SQL Server VM would most likely have its own IP address on the internal network, via an external Hyper-V switch.
     >
-    > The Hyper-V host is accessed via its private IP address (10.0.0.4). The DMS service accesses this IP address over the peering connection between the DMS VNet and the SmartHotelHost VNet. This simulates a VPN or ExpressRoute connection between a DMS VNet and an on-premises network.
+    > The Hyper-V host is accessed via its private IP address (10.0.0.4). The DMS service accesses this IP address over the peering connection between the DMS VNet and the RootBoySlimHost VNet. This simulates a VPN or ExpressRoute connection between a DMS VNet and an on-premises network.
 
-12. In the **Select databases** step, the **Smarthotel.Registration** database should already be selected. Select **Next: Select target**.
+12. In the **Select databases** step, the **RootBoySlim.Registration** database should already be selected. Select **Next: Select target**.
 
     ![Screenshot showing the 'Select databases' step of the DMS Migration Wizard.](images/Exercise2/select-databases.png "DMS project - Select databases")
 
@@ -882,7 +882,7 @@ The schema migration will be carried out using a schema migration activity withi
 
     ![Screenshot showing the 'Select target' step of the DMS Migration Wizard. The target database password is highlighted.](images/Exercise2/select-target-pwd-only.png "Select target")
 
-4. At the **Select database and schema** step, check that the **SmartHotel.Registration** database is selected. Under **Target Database** select **smarthoteldb** and under **Schema Source** select **Generate from source**. Select **Next: Summary**.
+4. At the **Select database and schema** step, check that the **RootBoySlim.Registration** database is selected. Under **Target Database** select **RootBoySlimdb** and under **Schema Source** select **Generate from source**. Select **Next: Summary**.
 
     ![Screenshot showing the 'Select database and schema' step of the DMS Migration Wizard.](images/Exercise2/select-database-and-schema.png "Select database and schema")
 
@@ -916,7 +916,7 @@ The schema migration will be carried out using an offline data migration activit
 
     ![Screenshot showing the 'Select target' step of the DMS Migration Wizard. The target database password is highlighted.](images/Exercise2/select-target-pwd-only-data.png "Select target")
 
-4. At the **Map to target databases** step, check the **SmartHotel.Registration** database. Under **Target Database** select **smarthoteldb**. Select **Next: Configure migration settings**.
+4. At the **Map to target databases** step, check the **RootBoySlim.Registration** database. Under **Target Database** select **RootBoySlimdb**. Select **Next: Configure migration settings**.
 
     ![Screenshot showing the 'Map to target databases' step of the DMS Migration Wizard.](images/Exercise2/map-target-db.png "Map to target databases")
 
@@ -934,11 +934,11 @@ The schema migration will be carried out using an offline data migration activit
 
 As a final step, we will remove the private endpoint that allows the DMS service access to the database, since this access is no longer required.
 
-8.  In the Azure portal, navigate to the **SmartHotelHostDBRG** resource group, and then to the database server. Under **Security**, select **Private endpoint connections**.
+8.  In the Azure portal, navigate to the **RootBoySlimHostDBRG** resource group, and then to the database server. Under **Security**, select **Private endpoint connections**.
 
-9.  Select the **SmartHotel-DB-for-DMS** endpoint added earlier, and select **Remove**, followed by **Yes**.
+9.  Select the **RootBoySlim-DB-for-DMS** endpoint added earlier, and select **Remove**, followed by **Yes**.
 
-    ![Screenshot from the SQL server showing the SmartHotel-DB-for-DMS private endpoint being removed.](images/Exercise2/private-endpoint-remove.png "Remove private endpoint")
+    ![Screenshot from the SQL server showing the RootBoySlim-DB-for-DMS private endpoint being removed.](images/Exercise2/private-endpoint-remove.png "Remove private endpoint")
 
 #### Task summary <!-- omit in toc -->
 
@@ -1004,9 +1004,9 @@ You will also configure a private endpoint in this network to allow private, sec
 
     - Subscription: **Select your Azure subscription**.
   
-    - Resource group: (create new) **SmartHotelRG**
+    - Resource group: (create new) **RootBoySlimRG**
   
-    - Name: **SmartHotelVNet**
+    - Name: **RootBoySlimVNet**
   
     - Region: **IMPORTANT: Select the same location as your Azure SQL Database**.
 
@@ -1018,27 +1018,27 @@ You will also configure a private endpoint in this network to allow private, sec
   
     - First subnet: Select **Add subnet** and enter the following then select **Add**
 
-        - Subnet name: **SmartHotel**
+        - Subnet name: **RootBoySlim**
    
         - Address range: **192.168.0.0/25**
   
     - Second subnet: Select **Add subnet** and enter the following then select **Add**. 
 
-        - Subnet name: **SmartHotelDB**
+        - Subnet name: **RootBoySlimDB**
    
         - Address range: **192.168.0.128/25**
 
     ![Screenshot of the Azure portal showing the create virtual network blade 'IP Addresses' tab.](images/Exercise3/create-vnet-3.png "Create Virtual Network - IP Addresses")
 
-4. Navigate to the **SmartHotelHostDBRG** resource group, and then to the database server. Under **Security**, select **Private endpoint connections**, then select **+ Private endpoint**.
+4. Navigate to the **RootBoySlimHostDBRG** resource group, and then to the database server. Under **Security**, select **Private endpoint connections**, then select **+ Private endpoint**.
 
 5. On the **Basics** tab, enter the following configuration then select **Next: Resource**:
 
-    - Resource group: **SmartHotelDBRG**
+    - Resource group: **RootBoySlimDBRG**
   
-    - Name: **SmartHotel-DB-Endpoint**
+    - Name: **RootBoySlim-DB-Endpoint**
   
-    - Region: **Select the same location as the SmartHotelVNet**.
+    - Region: **Select the same location as the RootBoySlimVNet**.
   
     ![Screenshot showing the 'Create a private endpoint' blade, 'Basics' tab.](images/Exercise3/private-endpoint-1-1.png "Create a Private Endpoint - Basics")
 
@@ -1058,9 +1058,9 @@ You will also configure a private endpoint in this network to allow private, sec
    
 7.  On the **Configuration** tab, enter the following configuration then select **Review + Create** then **Create**:
 
-    - Virtual network: **SmartHotelVNet**
+    - Virtual network: **RootBoySlimVNet**
   
-    - Subnet: **SmartHotelDB (192.168.0.128/25)**
+    - Subnet: **RootBoySlimDB (192.168.0.128/25)**
   
     - Integrate with private DNS zone: **Yes**
   
@@ -1076,7 +1076,7 @@ You will also configure a private endpoint in this network to allow private, sec
 
     ![Screenshot showing step 3 to find the DNS entry for the SQL database server private endpoint](images/Exercise2/private-endpoint-dns3.png "Find Private Endpoint IP address")
     
-    >**Note**: Private DNS is used so that the database domain name, **\<your server\>.database.windows.net** resolves to the internal private endpoint IP address **192.168.0.132** when resolved from the SmartHotelVNet, but resolves to the Internet-facing IP address of the database server when resolved from outside the VNet. This means the same connection string (which contains the domain name) can be used in both cases.
+    >**Note**: Private DNS is used so that the database domain name, **\<your server\>.database.windows.net** resolves to the internal private endpoint IP address **192.168.0.132** when resolved from the RootBoySlimVNet, but resolves to the Internet-facing IP address of the database server when resolved from outside the VNet. This means the same connection string (which contains the domain name) can be used in both cases.
 
     >**Note**: If the private endpoint connection fails to allow the IP address or database domain name to connect to the database, it may be required to create a new firewall rule to allow the IP address ranges of the database and the private link.
 
@@ -1105,15 +1105,15 @@ In this task, you will register your Hyper-V host with the Azure Migrate: Server
 
     ![Screenshot of the Discover machines' panel from Azure Migrate, highlighting the download link for the Hyper-V replication provider software installer.](images/Exercise3/discover-3.png "Replication provider download link")
 
-4. Open the **SmartHotelHost** remote desktop window, launch **Chrome** from the desktop shortcut, and paste the link into a new browser tab to download the Azure Site Recovery provider installer.
+4. Open the **RootBoySlimHost** remote desktop window, launch **Chrome** from the desktop shortcut, and paste the link into a new browser tab to download the Azure Site Recovery provider installer.
 
-5. Return to the **Discover machines** page in your browser (outside the SmartHotelHost remote desktop session). Select the blue **Download** button and download the registration key file.
+5. Return to the **Discover machines** page in your browser (outside the RootBoySlimHost remote desktop session). Select the blue **Download** button and download the registration key file.
 
     ![Screenshot of the Discover machines' panel from Azure Migrate, highlighting the download link Hyper-V registration key file.](images/Exercise3/discover-4.png "Download registration key file")
 
-6. Open the file location in Windows Explorer, and copy the file to your clipboard. Return to the **SmartHotelHost** remote desktop session and paste the file to the desktop.
+6. Open the file location in Windows Explorer, and copy the file to your clipboard. Return to the **RootBoySlimHost** remote desktop session and paste the file to the desktop.
 
-7. Still within the **SmartHotelHost** remote desktop session, open the **AzureSiteRecoveryProvider.exe** installer you downloaded a moment ago. On the **Microsoft Update** tab, select **Off** and select **Next**. Accept the default installation location and select **Install**.
+7. Still within the **RootBoySlimHost** remote desktop session, open the **AzureSiteRecoveryProvider.exe** installer you downloaded a moment ago. On the **Microsoft Update** tab, select **Off** and select **Next**. Accept the default installation location and select **Install**.
 
     ![Screenshot of the ASR provider installer.](images/Exercise3/asr-provider-install.png "Azure Site Recovery Provider Setup")
 
@@ -1127,7 +1127,7 @@ In this task, you will register your Hyper-V host with the Azure Migrate: Server
 
     ![Screenshot of the ASR provider showing successful registration.](images/Exercise3/asr-registered.png "Registration complete")
 
-11. Minimize the SmartHotelHost remote desktop session and return to the Azure Migrate browser window. **Refresh** your browser, then re-open the **Discover machines** panel by selecting **Discover** under **Azure Migrate: Server Migration** and selecting **Yes, with Hyper-V** for **Are your machines virtualized?**.
+11. Minimize the RootBoySlimHost remote desktop session and return to the Azure Migrate browser window. **Refresh** your browser, then re-open the **Discover machines** panel by selecting **Discover** under **Azure Migrate: Server Migration** and selecting **Yes, with Hyper-V** for **Are your machines virtualized?**.
 
 12. Select **Finalize registration**, which should now be enabled.
 
@@ -1161,21 +1161,21 @@ In this task, you will configure and enable the replication of your on-premises 
 
     ![Screenshot of the 'Source settings' tab of the 'Replicate' wizard in Azure Migrate Server Migration. Hyper-V replication is selected.](images/Exercise3/replicate-2.png "Replicate - Source settings")
 
-3. In the **Virtual machines** tab, under **Import migration settings from an assessment**, select **Yes, apply migration settings from an Azure Migrate assessment**. Select the **SmartHotel VMs** VM group and the **SmartHotelAssessment** migration assessment.
+3. In the **Virtual machines** tab, under **Import migration settings from an assessment**, select **Yes, apply migration settings from an Azure Migrate assessment**. Select the **RootBoySlim VMs** VM group and the **RootBoySlimAssessment** migration assessment.
 
     ![Screenshot of the 'Virtual machines' tab of the 'Replicate' wizard in Azure Migrate Server Migration. The Azure Migrate assessment created earlier is selected.](images/Exercise3/replicate-3.png "Replicate - Virtual machines")
 
-4. The **Virtual machines** tab should now show the virtual machines included in the assessment. Select the **UbuntuWAF**, **smarthotelweb1**, and **smarthotelweb2** virtual machines, then select **Next**.
+4. The **Virtual machines** tab should now show the virtual machines included in the assessment. Select the **UbuntuWAF**, **RootBoySlimweb1**, and **RootBoySlimweb2** virtual machines, then select **Next**.
 
-    ![Screenshot of the 'Virtual machines' tab of the 'Replicate' wizard in Azure Migrate Server Migration. The UbuntuWAF, smarthotelweb1, and smarthotelweb2 machines are selected.](images/Exercise3/replicate-4.png "Replicate - Virtual machines")
+    ![Screenshot of the 'Virtual machines' tab of the 'Replicate' wizard in Azure Migrate Server Migration. The UbuntuWAF, RootBoySlimweb1, and RootBoySlimweb2 machines are selected.](images/Exercise3/replicate-4.png "Replicate - Virtual machines")
 
-5. In the **Target settings** tab, select your subscription and the existing **SmartHotelRG** resource group. Under **Replication storage account** select the **migrationstorage...** storage account and under **Virtual Network** select **SmartHotelVNet**. Under **Subnet** select **SmartHotel**. Select **Next**.
+5. In the **Target settings** tab, select your subscription and the existing **RootBoySlimRG** resource group. Under **Replication storage account** select the **migrationstorage...** storage account and under **Virtual Network** select **RootBoySlimVNet**. Under **Subnet** select **RootBoySlim**. Select **Next**.
 
     ![Screenshot of the 'Target settings' tab of the 'Replicate' wizard in Azure Migrate Server Migration. The resource group, storage account and virtual network created earlier in this exercise are selected.](images/Exercise3/replicate-5.png "Replicate - Target settings")
 
     > **Note:** For simplicity, in this lab you will not configure the migrated VMs for high availability, since each application tier is implemented using a single VM.
 
-6. In the **Compute** tab, select the **Standard_F2s_v2** VM size for each virtual machine. Select the **Windows** operating system for the **smarthotelweb** virtual machines and the **Linux** operating system for the **UbuntuWAF** virtual machine. Select **Next**. 
+6. In the **Compute** tab, select the **Standard_F2s_v2** VM size for each virtual machine. Select the **Windows** operating system for the **RootBoySlimweb** virtual machines and the **Linux** operating system for the **UbuntuWAF** virtual machine. Select **Next**. 
 
     > **Note**: If you are using an Azure Pass subscription, your subscription may not have a quota allocated for FSv2 virtual machines. In this case, use **DS2_v2 or D2s_v3** virtual machines instead.
 
@@ -1203,13 +1203,13 @@ In this task you enabled replication from the Hyper-V host to Azure Migrate, and
 
 In this task you will modify the settings for each replicated VM to use a static private IP address that matches the on-premises IP addresses for that machine.
 
-1. Still using the **Azure Migrate: Server Migration - Replicating machines** blade, select the **smarthotelweb1** virtual machine. This opens a detailed migration and replication blade for this machine. Take a moment to study this information.
+1. Still using the **Azure Migrate: Server Migration - Replicating machines** blade, select the **RootBoySlimweb1** virtual machine. This opens a detailed migration and replication blade for this machine. Take a moment to study this information.
 
-    ![Screenshot from the 'Azure Migrate: Server Migration - Replicating machines' blade with the smarthotelweb1 machine highlighted.](images/Exercise3/config-0.png "Replicating machines")
+    ![Screenshot from the 'Azure Migrate: Server Migration - Replicating machines' blade with the RootBoySlimweb1 machine highlighted.](images/Exercise3/config-0.png "Replicating machines")
 
 2. Select **Compute and Network** under **General** on the left, then select **Edit**.
 
-   ![Screenshot of the smarthotelweb1 blade with the 'Compute and Network' and 'Edit' links highlighted.](images/Exercise3/config-1.png "Edit Compute and Network settings")
+   ![Screenshot of the RootBoySlimweb1 blade with the 'Compute and Network' and 'Edit' links highlighted.](images/Exercise3/config-1.png "Edit Compute and Network settings")
 
 3. Confirm that the VM is configured to use the **F2s_v2** VM size (or **DS2_v2 or D2s_v3** if using an Azure Pass subscription) and that **Use managed disks** is set to **Yes**.
 
@@ -1221,11 +1221,11 @@ In this task you will modify the settings for each replicated VM to use a static
 
     ![Screenshot showing a private IP address being configured for a replicated VM in ASR.](images/Exercise3/private-ip.png "Network interface - static private IP address")
 
-6. Select **OK** to close the network interface settings blade, then **Save** the **smarthotelweb1** settings.
+6. Select **OK** to close the network interface settings blade, then **Save** the **RootBoySlimweb1** settings.
 
 7. Repeat these steps to configure the private IP address for the other VMs.
  
-    - For **smarthotelweb2** use private IP address **192.168.0.5**
+    - For **RootBoySlimweb2** use private IP address **192.168.0.5**
   
     - For **UbuntuWAF** use private IP address **192.168.0.8**
 
@@ -1237,7 +1237,7 @@ In this task you modified the settings for each replicated VM to use a static pr
 
 ### Task 6: Server migration
 
-In this task you will perform a migration of the UbuntuWAF, smarthotelweb1, and smarthotelweb2 machines to Azure.
+In this task you will perform a migration of the UbuntuWAF, RootBoySlimweb1, and RootBoySlimweb2 machines to Azure.
 
 > **Note**: In a real-world scenario, you would perform a test migration before the final migration. To save time, you will skip the test migration in this lab. The test migration process is very similar to the final migration.
 
@@ -1263,7 +1263,7 @@ In this task you will perform a migration of the UbuntuWAF, smarthotelweb1, and 
 
     ![Screenshot showing the **Jobs* link and a jobs list with all 'Planned failover' jobs successful.](images/Exercise3/migrate-5.png "Migration status")
 
-6. Navigate to the **SmartHotelRG** resource group and check that the VM, network interface, and disk resources have been created for each of the virtual machines being migrated.
+6. Navigate to the **RootBoySlimRG** resource group and check that the VM, network interface, and disk resources have been created for each of the virtual machines being migrated.
 
    ![Screenshot showing resources created by the test failover (VMs, disks, and network interfaces).](images/Exercise3/migrate-6.png "Migrated resources")
 
@@ -1275,9 +1275,9 @@ In this task you used Azure Migrate to create Azure VMs using the settings you h
 
 We will need to access our newly-migrated virtual machines to make some configuration changes. However, the machines do not currently have public IP addresses. Rather than add public IP addresses, we will access them using Azure Bastion.
 
-Azure Bastion requires a dedicated subnet within the same virtual network as the virtual machines. Unfortunately, our SmartHotelVNet does not have any free network space available. To address this, we will first extend the network space.
+Azure Bastion requires a dedicated subnet within the same virtual network as the virtual machines. Unfortunately, our RootBoySlimVNet does not have any free network space available. To address this, we will first extend the network space.
 
-1. Navigate to the **SmartHotelVNet** virtual network, then select **Address space** under **Settings** on the left.  Add the address space **10.10.0.0/24**, and **Save**.
+1. Navigate to the **RootBoySlimVNet** virtual network, then select **Address space** under **Settings** on the left.  Add the address space **10.10.0.0/24**, and **Save**.
 
 2. Select **Subnets** under **Settings** on the left, and add a new subnet named **AzureBastionSubnet**, with address space **10.10.0.0/27**.
 
@@ -1289,11 +1289,11 @@ Azure Bastion requires a dedicated subnet within the same virtual network as the
   
     - Resource group: (Create new) **BastionRG**
   
-    - Name: **SmartHotelBastion**
+    - Name: **RootBoySlimBastion**
   
-    - Region: **Same as SmartHotelVNet**
+    - Region: **Same as RootBoySlimVNet**
   
-    - Virtual Network: **SmartHotelVNet**
+    - Virtual Network: **RootBoySlimVNet**
   
     - Subnet: **AzureBastionSubnet**
   
@@ -1307,19 +1307,19 @@ Azure Bastion requires a dedicated subnet within the same virtual network as the
 
 ### Task 8: Configure the database connection
 
-The application tier machine **smarthotelweb2** is configured to connect to the application database running on the **smarthotelsql** machine.
+The application tier machine **RootBoySlimweb2** is configured to connect to the application database running on the **RootBoySlimsql** machine.
 
-On the migrated VM **smarthotelweb2**, this configuration needs to be updated to use the Azure SQL Database instead.
+On the migrated VM **RootBoySlimweb2**, this configuration needs to be updated to use the Azure SQL Database instead.
 
-> **Note**: You do not need to update any configuration files on **smarthotelweb1** or the **UbuntuWAF** VMs, since the migration has preserved the private IP addresses of all virtual machines they connect with.
+> **Note**: You do not need to update any configuration files on **RootBoySlimweb1** or the **UbuntuWAF** VMs, since the migration has preserved the private IP addresses of all virtual machines they connect with.
 
-1. Navigate to the **smarthotelweb2** VM overview blade, and select **Connect**. Select **Bastion** and connect to the machine with the username **Administrator** and the password **demo!pass123**. When prompted, **Allow** clipboard access.
+1. Navigate to the **RootBoySlimweb2** VM overview blade, and select **Connect**. Select **Bastion** and connect to the machine with the username **Administrator** and the password **demo!pass123**. When prompted, **Allow** clipboard access.
 
     **Note:** You may have to wait a few minutes and refresh to have the option to enter the credentials. 
 
     ![Screenshot showing the Azure Bastion connection blade.](images/Exercise3/web2-connect.png "Connect using Bastion")
 
-2. In the **smarthotelweb2** remote desktop session, open Windows Explorer and navigate to the **C:\\inetpub\\SmartHotel.Registration.Wcf** folder. Double-select the **Web.config** file and open with Notepad.
+2. In the **RootBoySlimweb2** remote desktop session, open Windows Explorer and navigate to the **C:\\inetpub\\RootBoySlim.Registration.Wcf** folder. Double-select the **Web.config** file and open with Notepad.
 
 3. Update the **DefaultConnection** setting to connect to your Azure SQL Database.
 
@@ -1327,7 +1327,7 @@ On the migrated VM **smarthotelweb2**, this configuration needs to be updated to
 
      ![Screenshot showing the 'Show database connection strings' link for an Azure SQL Database.](images/Exercise3/show-connection-strings.png "Show database connection strings")
 
-    Copy the **ADO.NET** connection string, and paste into the web.config file on **smarthotelweb2**, replacing the existing connection string.  **Be careful not to overwrite the 'providerName' parameter which is specified after the connection string.**
+    Copy the **ADO.NET** connection string, and paste into the web.config file on **RootBoySlimweb2**, replacing the existing connection string.  **Be careful not to overwrite the 'providerName' parameter which is specified after the connection string.**
 
     > **Note:** You may need to open the clipboard panel on the left-hand edge of the Bastion window, paste the connection string there, and then paste into the VM.
 
@@ -1339,11 +1339,11 @@ On the migrated VM **smarthotelweb2**, this configuration needs to be updated to
 
 #### Task summary <!-- omit in toc -->
 
-In this task, you updated the **smarthotelweb2** configuration to connect to the Azure SQL Database.
+In this task, you updated the **RootBoySlimweb2** configuration to connect to the Azure SQL Database.
 
-### Task 9: Configure the public IP address and test the SmartHotel application
+### Task 9: Configure the public IP address and test the RootBoySlim application
 
-In this task, you will associate a public IP address with the UbuntuWAF VM. This will allow you to verify that the SmartHotel application is running successfully in Azure.
+In this task, you will associate a public IP address with the UbuntuWAF VM. This will allow you to verify that the RootBoySlim application is running successfully in Azure.
 
 1. Navigate to the **UbuntuWAF** VM blade, select **Networking** under **Settings** on the left, then select the network interface (in bold text). 
 
@@ -1361,13 +1361,13 @@ In this task, you will associate a public IP address with the UbuntuWAF VM. This
 
     ![Screenshot showing the IP address for the UbuntuWAF VM.](images/Exercise3/ubuntu-public-ip.png "UbuntuWAF public IP address")
 
-5. Open a new browser tab and paste the IP address into the address bar. Verify that the SmartHotel360 application is now available in Azure.
+5. Open a new browser tab and paste the IP address into the address bar. Verify that the RootBoySlim360 application is now available in Azure.
 
-    ![Screenshot showing the SmartHotel application.](images/Exercise3/smarthotel.png "Migrated SmartHotel application")
+    ![Screenshot showing the RootBoySlim application.](images/Exercise3/RootBoySlim.png "Migrated RootBoySlim application")
 
 #### Task summary <!-- omit in toc -->
 
-In this task, you assigned a public IP address to the UbuntuWAF VM and verified that the SmartHotel application is now working in Azure.
+In this task, you assigned a public IP address to the UbuntuWAF VM and verified that the RootBoySlim application is now working in Azure.
 
 ### Task 10: Post-migration steps
 
@@ -1393,7 +1393,7 @@ In this task you will install the Azure Virtual Machine Agent (VM Agent) on your
 >
 > In this lab, you will install the VM agent on the Azure VMs after migration. Alternatively, you could instead install the agent on the VMs in Hyper-V before migration.
 
-1. In the Azure portal, locate the **smarthotelweb1** VM and open a remote desktop session using Azure Bastion. Log in to the **Administrator** account using password **demo!pass123** (use the 'eyeball' to check the password was entered correctly with your local keyboard mapping).
+1. In the Azure portal, locate the **RootBoySlimweb1** VM and open a remote desktop session using Azure Bastion. Log in to the **Administrator** account using password **demo!pass123** (use the 'eyeball' to check the password was entered correctly with your local keyboard mapping).
 
 2. Open a web browser and download the VM Agent from:
 
@@ -1407,7 +1407,7 @@ In this task you will install the Azure Virtual Machine Agent (VM Agent) on your
 
     ![Screenshot showing the Windows installer for the Azure VM Agent.](images/Exercise3/vm-agent-win.png "VM Agent install - Windows")
 
-4. Close the smarthotelweb1 window. Repeat the Azure VM agent installation process on **smarthotelweb2**.
+4. Close the RootBoySlimweb1 window. Repeat the Azure VM agent installation process on **RootBoySlimweb2**.
 
 You will now install the Linux version of the Azure VM Agent on the Ubuntu VM. All Linux distributions supports by Azure have integrated the Azure VM Agent into their software repositories, making installation easy in most cases.
 
@@ -1429,7 +1429,7 @@ You will now install the Linux version of the Azure VM Agent on the Ubuntu VM. A
 
 To demonstrate that the VM Agent is installed, we will now execute the 'Run command' feature from the Azure portal. For more information on the VM Agent, see [Windows VM Agent](https://docs.microsoft.com/azure/virtual-machines/extensions/agent-windows) and [Linux VM Agent](https://docs.microsoft.com/azure/virtual-machines/extensions/agent-linux).
 
-8. Navigate to the **smarthotelweb1** blade. Under **Operations**, select **Run command**, followed by **IPConfig**, followed by **Run**. After a few seconds, you should see the output of the IPConfig command.
+8. Navigate to the **RootBoySlimweb1** blade. Under **Operations**, select **Run command**, followed by **IPConfig**, followed by **Run**. After a few seconds, you should see the output of the IPConfig command.
 
     ![Screenshot showing the Run command feature.](images/Exercise3/run-command.png "Run command")
 
@@ -1453,13 +1453,13 @@ Duration: 10 minutes
 
 You should complete all of these steps *after* attending the Hands-on lab. Failure to delete the resources created during the lab will result in continued billing.
 
-1. Delete the **SmartHotelHostRG** resource group containing the SmartHotelHost.
+1. Delete the **RootBoySlimHostRG** resource group containing the RootBoySlimHost.
 
-2. Delete the **SmartHotelDBRG** resource group containing the Azure SQL Database.
+2. Delete the **RootBoySlimDBRG** resource group containing the Azure SQL Database.
 
 3. Delete the **BastionRG** resource group containing the Azure Bastion. 
 
-4. Delete the **SmartHotelRG** resource group containing the migrated VMs and related infrastructure resources.
+4. Delete the **RootBoySlimRG** resource group containing the migrated VMs and related infrastructure resources.
 
 5. Delete the **AzureMigrateRG** resource group containing the Azure Migrate resources (if not done already at the end of Exercise 3).
 
