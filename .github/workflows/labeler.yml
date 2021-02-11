@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: TimonVS/pr-labeler-action@v3
         with:
-          configuration-path: .github/type-labeler.yaml
+          configuration-path: .github/pr-type-labeling-daemon.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
