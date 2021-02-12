@@ -194,14 +194,14 @@ $azcopyZipfile = Get-ChildItem -Path $azcopyZip
 Expand-Files -Files $azcopyZipfile -Destination $opsDir
 $azcopy = "$opsDir\azcopy_windows_amd64_10.1.1\azcopy.exe"
 
-# Download rootboyslim VMs from blob storage
+# Download RootBoySlim VMs from blob storage
 # Also download Azure Migrate appliance (saves time in lab later)
 Write-Output "Download nested VM zip files using AzCopy"
 $sourceFolder = 'https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020'
 
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/SmartHotelWeb1.zip $tempDir\SmartHotelWeb1.zip" | Add-Content $cmdLogPath
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/SmartHotelWeb2.zip $tempDir\SmartHotelWeb2.zip" | Add-Content $cmdLogPath
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/SmartHotelSQL1.zip $tempDir\SmartHotelSQL1.zip" | Add-Content $cmdLogPath
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/RootBoySlimWeb1.zip $tempDir\RootBoySlimWeb1.zip" | Add-Content $cmdLogPath
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/RootBoySlimWeb2.zip $tempDir\RootBoySlimWeb2.zip" | Add-Content $cmdLogPath
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/RootBoySlimSQL1.zip $tempDir\RootBoySlimSQL1.zip" | Add-Content $cmdLogPath
 cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/UbuntuWAF.zip $tempDir\UbuntuWAF.zip" | Add-Content $cmdLogPath
 cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/AzureMigrateAppliance_v3.20.08.27.zip $tempDir\AzureMigrate.zip" | Add-Content $cmdLogPath
 
@@ -231,16 +231,16 @@ Set-VMHost -EnableEnhancedSessionMode $true
 
 # Create the nested Windows VMs - from VHDs
 Write-Output "Create Hyper-V VMs"
-New-VM -Name rootboyslimweb1 -MemoryStartupBytes 4GB -BootDevice VHD -VHDPath "$vmdir\SmartHotelWeb1\SmartHotelWeb1.vhdx" -Path "$vmdir\SmartHotelWeb1" -Generation 2 -Switch $switchName 
-New-VM -Name rootboyslimweb2 -MemoryStartupBytes 4GB -BootDevice VHD -VHDPath "$vmdir\SmartHotelWeb2\SmartHotelWeb2.vhdx" -Path "$vmdir\SmartHotelWeb2" -Generation 2 -Switch $switchName
-New-VM -Name rootboyslimSQL1 -MemoryStartupBytes 4GB -BootDevice VHD -VHDPath "$vmdir\SmartHotelSQL1\SmartHotelSQL1.vhdx" -Path "$vmdir\SmartHotelSQL1" -Generation 2 -Switch $switchName
+New-VM -Name RootBoySlimweb1 -MemoryStartupBytes 4GB -BootDevice VHD -VHDPath "$vmdir\RootBoySlimWeb1\RootBoySlimWeb1.vhdx" -Path "$vmdir\RootBoySlimWeb1" -Generation 2 -Switch $switchName 
+New-VM -Name RootBoySlimweb2 -MemoryStartupBytes 4GB -BootDevice VHD -VHDPath "$vmdir\RootBoySlimWeb2\RootBoySlimWeb2.vhdx" -Path "$vmdir\RootBoySlimWeb2" -Generation 2 -Switch $switchName
+New-VM -Name RootBoySlimSQL1 -MemoryStartupBytes 4GB -BootDevice VHD -VHDPath "$vmdir\RootBoySlimSQL1\RootBoySlimSQL1.vhdx" -Path "$vmdir\RootBoySlimSQL1" -Generation 2 -Switch $switchName
 New-VM -Name UbuntuWAF      -MemoryStartupBytes 4GB -BootDevice VHD -VHDPath "$vmdir\UbuntuWAF\UbuntuWAF.vhdx"           -Path "$vmdir\UbuntuWAF"      -Generation 1 -Switch $switchName
 
 # Configure IP addresses (don't change the IPs! VM config depends on them)
 Write-Output "Configure VM networking"
-Get-VMNetworkAdapter -VMName "rootboyslimweb1" | Set-VMNetworkConfiguration -IPAddress "192.168.0.4" -Subnet "255.255.255.0" -DefaultGateway "192.168.0.1" -DNSServer "8.8.8.8"
-Get-VMNetworkAdapter -VMName "rootboyslimweb2" | Set-VMNetworkConfiguration -IPAddress "192.168.0.5" -Subnet "255.255.255.0" -DefaultGateway "192.168.0.1" -DNSServer "8.8.8.8"
-Get-VMNetworkAdapter -VMName "rootboyslimsql1" | Set-VMNetworkConfiguration -IPAddress "192.168.0.6" -Subnet "255.255.255.0" -DefaultGateway "192.168.0.1" -DNSServer "8.8.8.8"
+Get-VMNetworkAdapter -VMName "RootBoySlimweb1" | Set-VMNetworkConfiguration -IPAddress "192.168.0.4" -Subnet "255.255.255.0" -DefaultGateway "192.168.0.1" -DNSServer "8.8.8.8"
+Get-VMNetworkAdapter -VMName "RootBoySlimweb2" | Set-VMNetworkConfiguration -IPAddress "192.168.0.5" -Subnet "255.255.255.0" -DefaultGateway "192.168.0.1" -DNSServer "8.8.8.8"
+Get-VMNetworkAdapter -VMName "RootBoySlimsql1" | Set-VMNetworkConfiguration -IPAddress "192.168.0.6" -Subnet "255.255.255.0" -DefaultGateway "192.168.0.1" -DNSServer "8.8.8.8"
 Get-VMNetworkAdapter -VMName "UbuntuWAF"      | Set-VMNetworkConfiguration -IPAddress "192.168.0.8" -Subnet "255.255.255.0" -DefaultGateway "192.168.0.1" -DNSServer "8.8.8.8"
 
 # We always want the VMs to start with the host and shut down cleanly with the host
@@ -253,17 +253,17 @@ Write-Output "Start VMs"
 Get-VM | Start-VM
 
 # Ping website to warm it up
-Write-Output "Wait for rootboyslim site"
+Write-Output "Wait for RootBoySlim site"
 Wait-For-Website('http://192.168.0.8')
 
 # Rearm (extend evaluation license) and reboot each Windows VM
 Write-Output "Re-arming Windows VMs (extend eval licenses)"
-Rearm-VM -ComputerName "rootboyslimweb1" -Username "Administrator" -Password "demo!pass123"
-Rearm-VM -ComputerName "rootboyslimweb2" -Username "Administrator" -Password "demo!pass123"
-Rearm-VM -ComputerName "rootboyslimSQL1" -Username "Administrator" -Password "demo!pass123"
+Rearm-VM -ComputerName "RootBoySlimweb1" -Username "Administrator" -Password "demo!pass123"
+Rearm-VM -ComputerName "RootBoySlimweb2" -Username "Administrator" -Password "demo!pass123"
+Rearm-VM -ComputerName "RootBoySlimSQL1" -Username "Administrator" -Password "demo!pass123"
 
 # Warm up the app after the re-arm reboots
-Write-Output "Waiting for rootboyslim reboot"
+Write-Output "Waiting for RootBoySlim reboot"
 Wait-For-Website('http://192.168.0.8')
 
 # Add NAT forwarders
