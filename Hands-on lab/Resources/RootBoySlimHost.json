@@ -101,7 +101,7 @@
             ],
             "resources": [
                 {
-                    "name": "CustomSciptExtension",
+                    "name": "CustomScriptExtension",
                     "type": "extensions",
                     "apiVersion": "2016-03-30",
                     "location": "[resourceGroup().location]",

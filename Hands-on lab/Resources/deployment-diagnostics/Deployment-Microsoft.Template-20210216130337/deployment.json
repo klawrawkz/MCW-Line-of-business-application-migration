@@ -1,0 +1,190 @@
+{
+  "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Resources/deployments/Microsoft.Template-20210216130337",
+  "name": "Microsoft.Template-20210216130337",
+  "type": "Microsoft.Resources/deployments",
+  "tags": {
+    "marketplaceItemId": "Microsoft.Template"
+  },
+  "properties": {
+    "templateLink": {
+      "uri": "https://raw.githubusercontent.com/klawrawkz/MCW-Line-of-business-application-migration/master/Hands-on%20lab/Resources/RootBoySlimHost.json",
+      "contentVersion": "1.0.0.0"
+    },
+    "templateHash": "15771212488682211964",
+    "parameters": {
+      "adminUsername": {
+        "type": "String",
+        "value": "demouser"
+      },
+      "adminPassword": {
+        "type": "SecureString"
+      }
+    },
+    "mode": "Incremental",
+    "debugSetting": {
+      "detailLevel": "None"
+    },
+    "provisioningState": "Failed",
+    "timestamp": "2021-02-16T18:14:03.769296Z",
+    "duration": "PT10M26.3051086S",
+    "correlationId": "2dbcdee1-45a0-456e-ae8b-ea47e503a2a2",
+    "providers": [
+      {
+        "namespace": "Microsoft.Compute",
+        "resourceTypes": [
+          {
+            "resourceType": "virtualMachines",
+            "locations": [
+              "eastus"
+            ]
+          },
+          {
+            "resourceType": "virtualMachines/extensions",
+            "locations": [
+              "eastus"
+            ]
+          },
+          {
+            "resourceType": "disks",
+            "locations": [
+              "eastus"
+            ]
+          }
+        ]
+      },
+      {
+        "namespace": "Microsoft.Network",
+        "resourceTypes": [
+          {
+            "resourceType": "networkInterfaces",
+            "locations": [
+              "eastus"
+            ]
+          },
+          {
+            "resourceType": "networkSecurityGroups",
+            "locations": [
+              "eastus"
+            ]
+          },
+          {
+            "resourceType": "publicIPAddresses",
+            "locations": [
+              "eastus"
+            ]
+          },
+          {
+            "resourceType": "virtualNetworks",
+            "locations": [
+              "eastus"
+            ]
+          },
+          {
+            "resourceType": "virtualNetworks/virtualNetworkPeerings",
+            "locations": [
+              "eastus"
+            ]
+          }
+        ]
+      }
+    ],
+    "dependencies": [
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/networkInterfaces/RootBoySlimhostnic",
+            "resourceType": "Microsoft.Network/networkInterfaces",
+            "resourceName": "RootBoySlimhostnic"
+          },
+          {
+            "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Compute/disks/RootBoySlimHost_DataDisk",
+            "resourceType": "Microsoft.Compute/disks",
+            "resourceName": "RootBoySlimHost_DataDisk"
+          }
+        ],
+        "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Compute/virtualMachines/RootBoySlimHost",
+        "resourceType": "Microsoft.Compute/virtualMachines",
+        "resourceName": "RootBoySlimHost"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Compute/virtualMachines/RootBoySlimHost",
+            "resourceType": "Microsoft.Compute/virtualMachines",
+            "resourceName": "RootBoySlimHost"
+          }
+        ],
+        "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Compute/virtualMachines/RootBoySlimHost/extensions/CustomSciptExtension",
+        "resourceType": "Microsoft.Compute/virtualMachines/extensions",
+        "resourceName": "RootBoySlimHost/CustomSciptExtension"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/publicIPAddresses/RootBoySlimhostip",
+            "resourceType": "Microsoft.Network/publicIPAddresses",
+            "resourceName": "RootBoySlimhostip"
+          },
+          {
+            "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/networkSecurityGroups/RootBoySlimhostnsg",
+            "resourceType": "Microsoft.Network/networkSecurityGroups",
+            "resourceName": "RootBoySlimhostnsg"
+          },
+          {
+            "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/virtualNetworks/RootBoySlimhostvnet",
+            "resourceType": "Microsoft.Network/virtualNetworks",
+            "resourceName": "RootBoySlimhostvnet"
+          }
+        ],
+        "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/networkInterfaces/RootBoySlimhostnic",
+        "resourceType": "Microsoft.Network/networkInterfaces",
+        "resourceName": "RootBoySlimhostnic"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/virtualNetworks/RootBoySlimhostvnet",
+            "resourceType": "Microsoft.Network/virtualNetworks",
+            "resourceName": "RootBoySlimhostvnet"
+          },
+          {
+            "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/virtualNetworks/DMSvnet",
+            "resourceType": "Microsoft.Network/virtualNetworks",
+            "resourceName": "DMSvnet"
+          }
+        ],
+        "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/virtualNetworks/RootBoySlimhostvnet/virtualNetworkPeerings/host2dms",
+        "resourceType": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+        "resourceName": "RootBoySlimhostvnet/host2dms"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/virtualNetworks/RootBoySlimhostvnet",
+            "resourceType": "Microsoft.Network/virtualNetworks",
+            "resourceName": "RootBoySlimhostvnet"
+          },
+          {
+            "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/virtualNetworks/DMSvnet",
+            "resourceType": "Microsoft.Network/virtualNetworks",
+            "resourceName": "DMSvnet"
+          }
+        ],
+        "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/virtualNetworks/DMSvnet/virtualNetworkPeerings/dms2host",
+        "resourceType": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+        "resourceName": "DMSvnet/dms2host"
+      }
+    ],
+    "error": {
+      "code": "DeploymentFailed",
+      "message": "At least one resource deployment operation failed. Please list deployment operations for details. Please see https://aka.ms/DeployOperations for usage details.",
+      "details": [
+        {
+          "code": "VMExtensionProvisioningError",
+          "message": "VM has reported a failure when processing extension 'CustomSciptExtension'. Error message: \"Failed to download all specified files. Exiting. Error Message: The request was aborted: Could not create SSL/TLS secure channel.\"\r\n\r\nMore information on troubleshooting is available at https://aka.ms/VMExtensionCSEWindowsTroubleshoot "
+        }
+      ]
+    },
+    "validationLevel": "Template"
+  }
+}
