@@ -1,0 +1,189 @@
+[
+  {
+    "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Resources/deployments/Microsoft.Template-20210216174657/operations/EEF041A7C52D32B3",
+    "operationId": "EEF041A7C52D32B3",
+    "properties": {
+      "provisioningOperation": "Create",
+      "provisioningState": "Failed",
+      "timestamp": "2021-02-16T22:47:02.7297525Z",
+      "duration": "PT1.403299S",
+      "trackingId": "ff7b0b92-c8d2-402e-a729-0f45025ebbe6",
+      "serviceRequestId": "ad9dabcc-f150-489a-94de-4a8752a16a22",
+      "statusCode": "Conflict",
+      "statusMessage": {
+        "status": "Failed",
+        "error": {
+          "code": "VMExtensionProvisioningError",
+          "message": "VM has reported a failure when processing extension 'CustomScriptExtension'. Error message: \"Failed to download all specified files. Exiting. Error Message: The request was aborted: Could not create SSL/TLS secure channel.\"\r\n\r\nMore information on troubleshooting is available at https://aka.ms/VMExtensionCSEWindowsTroubleshoot "
+        }
+      },
+      "targetResource": {
+        "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Compute/virtualMachines/RootBoySlimHost/extensions/CustomScriptExtension",
+        "resourceType": "Microsoft.Compute/virtualMachines/extensions",
+        "resourceName": "RootBoySlimHost/CustomScriptExtension"
+      }
+    }
+  },
+  {
+    "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Resources/deployments/Microsoft.Template-20210216174657/operations/40C62CC6026CAF67",
+    "operationId": "40C62CC6026CAF67",
+    "properties": {
+      "provisioningOperation": "Create",
+      "provisioningState": "Succeeded",
+      "timestamp": "2021-02-16T22:47:01.9909106Z",
+      "duration": "PT0.6644571S",
+      "trackingId": "77fae0ac-64ff-4d3e-a774-cf15923b91e2",
+      "serviceRequestId": "6a6606a7-74e0-4838-9544-9505757327ab",
+      "statusCode": "OK",
+      "targetResource": {
+        "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Compute/virtualMachines/RootBoySlimHost",
+        "resourceType": "Microsoft.Compute/virtualMachines",
+        "resourceName": "RootBoySlimHost"
+      }
+    }
+  },
+  {
+    "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Resources/deployments/Microsoft.Template-20210216174657/operations/1A303238886195C6",
+    "operationId": "1A303238886195C6",
+    "properties": {
+      "provisioningOperation": "Create",
+      "provisioningState": "Succeeded",
+      "timestamp": "2021-02-16T22:47:01.2936262Z",
+      "duration": "PT2.3294932S",
+      "trackingId": "a2d2119d-3f52-4bd3-8205-f2a0ac4300ce",
+      "serviceRequestId": "c670253d-e630-47b6-a77a-f4abc312bb0d",
+      "statusCode": "OK",
+      "targetResource": {
+        "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Compute/disks/RootBoySlimHost_DataDisk",
+        "resourceType": "Microsoft.Compute/disks",
+        "resourceName": "RootBoySlimHost_DataDisk"
+      }
+    }
+  },
+  {
+    "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Resources/deployments/Microsoft.Template-20210216174657/operations/D98C3260B3BD9815",
+    "operationId": "D98C3260B3BD9815",
+    "properties": {
+      "provisioningOperation": "Create",
+      "provisioningState": "Succeeded",
+      "timestamp": "2021-02-16T22:46:59.7588827Z",
+      "duration": "PT0.1905707S",
+      "trackingId": "684b41b1-43c6-4601-b629-ac6a37183145",
+      "serviceRequestId": "ec082560-c962-4ed1-91b5-7a1b64524e2c",
+      "statusCode": "OK",
+      "targetResource": {
+        "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/networkInterfaces/RootBoySlimhostnic",
+        "resourceType": "Microsoft.Network/networkInterfaces",
+        "resourceName": "RootBoySlimhostnic"
+      }
+    }
+  },
+  {
+    "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Resources/deployments/Microsoft.Template-20210216174657/operations/DDC4ED63DCF98410",
+    "operationId": "DDC4ED63DCF98410",
+    "properties": {
+      "provisioningOperation": "Create",
+      "provisioningState": "Succeeded",
+      "timestamp": "2021-02-16T22:46:59.53914Z",
+      "duration": "PT0.2718389S",
+      "trackingId": "f6edddcc-537a-4e67-b169-1037825d4d42",
+      "serviceRequestId": "9e5053a9-46d9-46da-b66a-260e76cb8851",
+      "statusCode": "OK",
+      "targetResource": {
+        "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/virtualNetworks/RootBoySlimhostvnet/virtualNetworkPeerings/host2dms",
+        "resourceType": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+        "resourceName": "RootBoySlimhostvnet/host2dms"
+      }
+    }
+  },
+  {
+    "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Resources/deployments/Microsoft.Template-20210216174657/operations/7231BAF108D1B76E",
+    "operationId": "7231BAF108D1B76E",
+    "properties": {
+      "provisioningOperation": "Create",
+      "provisioningState": "Succeeded",
+      "timestamp": "2021-02-16T22:46:59.5354179Z",
+      "duration": "PT0.5712849S",
+      "trackingId": "4c6ba381-9f86-4710-8a90-a741f6d281da",
+      "serviceRequestId": "cf236aae-a3bb-4f43-b23c-959aac358616",
+      "statusCode": "OK",
+      "targetResource": {
+        "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/publicIPAddresses/RootBoySlimhostip",
+        "resourceType": "Microsoft.Network/publicIPAddresses",
+        "resourceName": "RootBoySlimhostip"
+      }
+    }
+  },
+  {
+    "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Resources/deployments/Microsoft.Template-20210216174657/operations/058D3D015C6EE827",
+    "operationId": "058D3D015C6EE827",
+    "properties": {
+      "provisioningOperation": "Create",
+      "provisioningState": "Succeeded",
+      "timestamp": "2021-02-16T22:46:59.4862799Z",
+      "duration": "PT0.2189788S",
+      "trackingId": "5c3d5a5b-5e4e-490a-8a77-09314238c45d",
+      "serviceRequestId": "bf9112f3-f613-4d16-b4cc-e8079c21c138",
+      "statusCode": "OK",
+      "targetResource": {
+        "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/virtualNetworks/DMSvnet/virtualNetworkPeerings/dms2host",
+        "resourceType": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+        "resourceName": "DMSvnet/dms2host"
+      }
+    }
+  },
+  {
+    "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Resources/deployments/Microsoft.Template-20210216174657/operations/A72CFAB97023ED7A",
+    "operationId": "A72CFAB97023ED7A",
+    "properties": {
+      "provisioningOperation": "Create",
+      "provisioningState": "Succeeded",
+      "timestamp": "2021-02-16T22:46:59.2355788Z",
+      "duration": "PT0.2714458S",
+      "trackingId": "57b6c9c8-f63e-4d72-a760-76eff48639f8",
+      "serviceRequestId": "ae09091e-3ac6-4a4c-b1d3-98a2a0af235c",
+      "statusCode": "OK",
+      "targetResource": {
+        "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/virtualNetworks/DMSvnet",
+        "resourceType": "Microsoft.Network/virtualNetworks",
+        "resourceName": "DMSvnet"
+      }
+    }
+  },
+  {
+    "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Resources/deployments/Microsoft.Template-20210216174657/operations/C67062EEEF00CD6C",
+    "operationId": "C67062EEEF00CD6C",
+    "properties": {
+      "provisioningOperation": "Create",
+      "provisioningState": "Succeeded",
+      "timestamp": "2021-02-16T22:46:59.2072941Z",
+      "duration": "PT0.2431611S",
+      "trackingId": "d8a4b589-5342-45ea-a739-12a9bfcf3e85",
+      "serviceRequestId": "de2a5abb-927e-475d-a144-0e91adcbe830",
+      "statusCode": "OK",
+      "targetResource": {
+        "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/networkSecurityGroups/RootBoySlimhostnsg",
+        "resourceType": "Microsoft.Network/networkSecurityGroups",
+        "resourceName": "RootBoySlimhostnsg"
+      }
+    }
+  },
+  {
+    "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Resources/deployments/Microsoft.Template-20210216174657/operations/DC6983ACD93A3963",
+    "operationId": "DC6983ACD93A3963",
+    "properties": {
+      "provisioningOperation": "Create",
+      "provisioningState": "Succeeded",
+      "timestamp": "2021-02-16T22:46:59.2018671Z",
+      "duration": "PT0.2377341S",
+      "trackingId": "bb2fc400-ebf6-48a7-a911-a3127f870343",
+      "serviceRequestId": "9f1a328c-769f-4efa-b476-8eb0b0516752",
+      "statusCode": "OK",
+      "targetResource": {
+        "id": "/subscriptions/8dda7bb8-f563-4146-b782-17f49486b048/resourceGroups/rbs-demo-migration-proj-rg/providers/Microsoft.Network/virtualNetworks/RootBoySlimhostvnet",
+        "resourceType": "Microsoft.Network/virtualNetworks",
+        "resourceName": "RootBoySlimhostvnet"
+      }
+    }
+  }
+]

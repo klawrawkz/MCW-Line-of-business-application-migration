@@ -191,7 +191,9 @@ Unregister-ScheduledTask -TaskName "SetUpVMs" -Confirm:$false
 Write-Output "Download and install AzCopy"
 # $azcopyUrl = "https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020/azcopy_windows_amd64_10.1.1.zip"
 # $azcopyUrl = "https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020/azcopy_windows_amd64_10.1.1.zip"
-$azcopyUrl = "https://rbsdemomgr8projstore.file.core.windows.net/rbsmusicassets/migrate-resources/?sv=2020-02-10&ss=f&srt=co&sp=rwdlc&se=2026-02-18T05:00:00Z&st=2021-02-16T14:00:00Z&spr=https&sig=q83FMmbvbK01HOuazSj8ysvKF4hhV8Xa5UFqCfKrN7c%3D"
+# $azcopyUrl = "https://rbsdemomgr8projstore.file.core.windows.net/rbsmusicassets/migrate-resources/?sv=2020-02-10&ss=f&srt=co&sp=rwdlc&se=2026-02-18T05:00:00Z&st=2021-02-16T14:00:00Z&spr=https&sig=q83FMmbvbK01HOuazSj8ysvKF4hhV8Xa5UFqCfKrN7c%3D"
+$azCopyUrl = "https://rbsdemomgr8projstore-microsoftrouting.file.core.windows.net/rbsmusicassets/migrate-resources/azcopy_windows_amd64_10.1.1.zip?sv=2020-02-10&ss=f&srt=co&sp=rwdlc&se=2026-02-18T05:00:00Z&st=2021-02-16T14:00:00Z&spr=https&sig=q83FMmbvbK01HOuazSj8ysvKF4hhV8Xa5UFqCfKrN7c%3D"
+$authToken="?sv=2020-02-10&ss=f&srt=co&sp=rwdlc&se=2026-02-18T05:00:00Z&st=2021-02-16T14:00:00Z&spr=https&sig=q83FMmbvbK01HOuazSj8ysvKF4hhV8Xa5UFqCfKrN7c%3D"
 $azcopyZip = "$opsDir\azcopy.zip"
 Start-BitsTransfer -Source $azcopyUrl -Destination $azcopyZip
 $azcopyZipfile = Get-ChildItem -Path $azcopyZip
@@ -202,8 +204,6 @@ $azcopy = "$opsDir\azcopy_windows_amd64_10.1.1\azcopy.exe"
 # Also download Azure Migrate appliance (saves time in lab later)
 Write-Output "Download nested VM zip files using AzCopy"
 # $sourceFolder = 'https://rbsdemomgr8projstore.file.core.windows.net/rbsmusicassets/migrate-resources/?sv=2020-02-10&ss=f&srt=co&sp=rwdlc&se=2026-02-18T05:00:00Z&st=2021-02-16T14:00:00Z&spr=https&sig=q83FMmbvbK01HOuazSj8ysvKF4hhV8Xa5UFqCfKrN7c%3D'
-$sourceFolder = "https://rbsdemomgr8projstore-microsoftrouting.file.core.windows.net/rbsmusicassets/migrate-resources"
-$authToken="?sv=2020-02-10&ss=f&srt=co&sp=rwdlc&se=2026-02-18T05:00:00Z&st=2021-02-16T14:00:00Z&spr=https&sig=q83FMmbvbK01HOuazSj8ysvKF4hhV8Xa5UFqCfKrN7c%3D"
 
 # https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020/SmartHotelWeb1.zip
 # https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020/SmartHotelWeb2.zip
