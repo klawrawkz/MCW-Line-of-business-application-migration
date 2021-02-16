@@ -201,10 +201,9 @@ $azcopy = "$opsDir\azcopy_windows_amd64_10.1.1\azcopy.exe"
 # Download rootboyslim VMs from blob storage
 # Also download Azure Migrate appliance (saves time in lab later)
 Write-Output "Download nested VM zip files using AzCopy"
-#$sourceFolder = 'https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020'
-#$sourceFolder = 'https://rbsdemomgr8projstore-microsoftrouting.file.core.windows.net/migrate-resources/?sv=2019-12-12&ss=f&srt=co&sp=rwlc&se=2021-02-16T08:25:12Z&st=2021-02-16T00:25:12Z&spr=https&sig=052jLLC2ckxdBAtSE8%2B9nlUS1ozFSnV3nHI18djDJfo%3D'
-$sourceFolder = 'https://rbsdemomgr8projstore.file.core.windows.net/rbsmusicassets/migrate-resources/?sv=2020-02-10&ss=f&srt=co&sp=rwdlc&se=2026-02-18T05:00:00Z&st=2021-02-16T14:00:00Z&spr=https&sig=q83FMmbvbK01HOuazSj8ysvKF4hhV8Xa5UFqCfKrN7c%3D'
-
+# $sourceFolder = 'https://rbsdemomgr8projstore.file.core.windows.net/rbsmusicassets/migrate-resources/?sv=2020-02-10&ss=f&srt=co&sp=rwdlc&se=2026-02-18T05:00:00Z&st=2021-02-16T14:00:00Z&spr=https&sig=q83FMmbvbK01HOuazSj8ysvKF4hhV8Xa5UFqCfKrN7c%3D'
+$sourceFolder = "https://rbsdemomgr8projstore-microsoftrouting.file.core.windows.net/rbsmusicassets/migrate-resources"
+$authToken="?sv=2020-02-10&ss=f&srt=co&sp=rwdlc&se=2026-02-18T05:00:00Z&st=2021-02-16T14:00:00Z&spr=https&sig=q83FMmbvbK01HOuazSj8ysvKF4hhV8Xa5UFqCfKrN7c%3D"
 
 # https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020/SmartHotelWeb1.zip
 # https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020/SmartHotelWeb2.zip
@@ -215,11 +214,11 @@ $sourceFolder = 'https://rbsdemomgr8projstore.file.core.windows.net/rbsmusicasse
 # https://rbsdemomgr8projstore.file.core.windows.net/rbsmusicassets/migrate-resources/rootboyslimsql1.zip
 
 
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/rootboyslimweb1.zip $tempDir\rootboyslimweb1.zip" | Add-Content $cmdLogPath
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/rootboyslimweb2.zip $tempDir\rootboyslimweb2.zip" | Add-Content $cmdLogPath
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/rootboyslimSQL1.zip $tempDir\rootboyslimSQL1.zip" | Add-Content $cmdLogPath
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/UbuntuWAF.zip $tempDir\UbuntuWAF.zip" | Add-Content $cmdLogPath
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/AzureMigrateAppliance_v3.20.08.27.zip $tempDir\AzureMigrate.zip" | Add-Content $cmdLogPath
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/rootboyslimweb1.zip$authToken $tempDir\rootboyslimweb1.zip" | Add-Content $cmdLogPath
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/rootboyslimweb2.zip$authToken $tempDir\rootboyslimweb2.zip" | Add-Content $cmdLogPath
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/rootboyslimSQL1.zip$authToken $tempDir\rootboyslimSQL1.zip" | Add-Content $cmdLogPath
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/UbuntuWAF.zip$authToken $tempDir\UbuntuWAF.zip" | Add-Content $cmdLogPath
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/AzureMigrateAppliance_v3.20.08.27.zip$authToken $tempDir\AzureMigrate.zip" | Add-Content $cmdLogPath
 
 # Unzip the VMs
 Write-Output "Unzip nested VMs"

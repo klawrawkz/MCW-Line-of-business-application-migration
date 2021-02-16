@@ -37,13 +37,14 @@ New-Item -Path $7zDir -ItemType directory -Force
 
 # Download post-migration script and 7z
 Write-Output "Download with Bits"
-# $sourceFolder = 'https://raw.githubusercontent.com/klawrawkz/MCW-Line-of-business-application-migration/master/Hands-on%20lab/Resources'
-$sourceFolder = 'https://rbsdemomgr8projstore.file.core.windows.net/rbsmusicassets/migrate-resources/?sv=2020-02-10&ss=f&srt=co&sp=rwdlc&se=2026-02-18T05:00:00Z&st=2021-02-16T14:00:00Z&spr=https&sig=q83FMmbvbK01HOuazSj8ysvKF4hhV8Xa5UFqCfKrN7c%3D'
+  $sourceFolder = "https://rbsdemomgr8projstore-microsoftrouting.file.core.windows.net/rbsmusicassets/migrate-resources"
+  $authToken="?sv=2020-02-10&ss=f&srt=co&sp=rwdlc&se=2026-02-18T05:00:00Z&st=2021-02-16T14:00:00Z&spr=https&sig=q83FMmbvbK01HOuazSj8ysvKF4hhV8Xa5UFqCfKrN7c%3D"
+# $sourceFolder = "https://rbsdemomgr8projstore.file.core.windows.net/rbsmusicassets/migrate-resources/?sv=2020-02-10&ss=f&srt=co&sp=rwdlc&se=2026-02-18T05:00:00Z&st=2021-02-16T14:00:00Z&spr=https&sig=q83FMmbvbK01HOuazSj8ysvKF4hhV8Xa5UFqCfKrN7c%3D"
 $downloads = @( `
-     "$sourceFolder/PostRebootConfigure.ps1" `
-    ,"$sourceFolder/7z/7za.exe" `
-    ,"$sourceFolder/7z/7za.dll" `
-    ,"$sourceFolder/7z/7zxa.dll" `
+     "$sourceFolder/PostRebootConfigure.ps1$authToken" `
+    ,"$sourceFolder/7z/7za.exe$authToken" `
+    ,"$sourceFolder/7z/7za.dll$authToken" `
+    ,"$sourceFolder/7z/7zxa.dll$authToken" `
     )
 
 $destinationFiles = @( `
