@@ -14,7 +14,7 @@ Function Set-VMNetworkConfiguration {
         [Parameter(Mandatory=$true,
                    Position=1,
                    ParameterSetName='Static')]
-        [String[]]$IPAddress=@(),
+        [String[]]$IPAddress,
 
         [Parameter(Mandatory=$false,
                    Position=2,
@@ -102,19 +102,21 @@ Function Expand-Files {
     }
 }
 
-Function Follow-Redirect {
-    Param (
-        [string]$Url
-    )
+## This function does not appear to be in use.
+# Function Get-Redirect {
+#     Param (
+#         [string]$Url
+#     )
 
-    $webClientObject = New-Object System.Net.WebClient
-    $webRequest = [System.Net.WebRequest]::create($Url)
-    $webResponse = $webRequest.GetResponse()
-    $actualUrl = $webResponse.ResponseUri.AbsoluteUri
-    $webResponse.Close()
+#     ## Need to analyse this call. It's not used.
+#     ##$webClientObject = New-Object System.Net.WebClient
+#     $webRequest = [System.Net.WebRequest]::create($Url)
+#     $webResponse = $webRequest.GetResponse()
+#     $actualUrl = $webResponse.ResponseUri.AbsoluteUri
+#     $webResponse.Close()
 
-    return $actualUrl
-}
+#     return $actualUrl
+# }
 
 Function Wait-For-Website {
     Param (
@@ -158,7 +160,7 @@ Function Rearm-VM {
     Write-Output "Re-arm (extend eval license) for VM $ComputerName at $ip"
     set-item wsman:\localhost\Client\TrustedHosts -value $ip -Force
 
-    Invoke-Command -ComputerName $ip -ScriptBlock { 
+    Invoke-Command -ComputerName $ip -ScriptBlock {  #DevSkim: ignore DS104456 
         slmgr.vbs /rearm
         net accounts /maxpwage:unlimited
         Restart-Computer -Force 
@@ -187,6 +189,7 @@ Unregister-ScheduledTask -TaskName "SetUpVMs" -Confirm:$false
 
 # Download AzCopy. We won't use the aka.ms/downloadazcopy link in case of breaking changes in later versions
 Write-Output "Download and install AzCopy"
+# $azcopyUrl = "https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020/azcopy_windows_amd64_10.1.1.zip"
 $azcopyUrl = "https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020/azcopy_windows_amd64_10.1.1.zip"
 $azcopyZip = "$opsDir\azcopy.zip"
 Start-BitsTransfer -Source $azcopyUrl -Destination $azcopyZip
@@ -197,11 +200,21 @@ $azcopy = "$opsDir\azcopy_windows_amd64_10.1.1\azcopy.exe"
 # Download rootboyslim VMs from blob storage
 # Also download Azure Migrate appliance (saves time in lab later)
 Write-Output "Download nested VM zip files using AzCopy"
-$sourceFolder = 'https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020'
+#$sourceFolder = 'https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020'
+$sourceFolder = 'https://rbsdemomgr8projstore-microsoftrouting.file.core.windows.net/migrate-resources/?sv=2019-12-12&ss=f&srt=co&sp=rwlc&se=2021-02-16T08:25:12Z&st=2021-02-16T00:25:12Z&spr=https&sig=052jLLC2ckxdBAtSE8%2B9nlUS1ozFSnV3nHI18djDJfo%3D'
 
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/SmartHotelWeb1.zip $tempDir\SmartHotelWeb1.zip" | Add-Content $cmdLogPath
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/SmartHotelWeb2.zip $tempDir\SmartHotelWeb2.zip" | Add-Content $cmdLogPath
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/SmartHotelSQL1.zip $tempDir\SmartHotelSQL1.zip" | Add-Content $cmdLogPath
+# https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020/SmartHotelWeb1.zip
+# https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020/SmartHotelWeb2.zip
+# https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020/SmartHotelSQL1.zip
+# https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020/UbuntuWAF.zip
+# https://rbsdemomgr8projstore.file.core.windows.net/rbsmusicassets/migrate-resources/rootboyslimweb1.zip
+# https://rbsdemomgr8projstore.file.core.windows.net/rbsmusicassets/migrate-resources/rootboyslimweb2.zip
+# https://rbsdemomgr8projstore.file.core.windows.net/rbsmusicassets/migrate-resources/rootboyslimsql1.zip
+
+
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/rootboyslimweb1.zip $tempDir\rootboyslimweb1.zip" | Add-Content $cmdLogPath
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/rootboyslimweb2.zip $tempDir\rootboyslimweb2.zip" | Add-Content $cmdLogPath
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/rootboyslimSQL1.zip $tempDir\rootboyslimSQL1.zip" | Add-Content $cmdLogPath
 cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/UbuntuWAF.zip $tempDir\UbuntuWAF.zip" | Add-Content $cmdLogPath
 cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/AzureMigrateAppliance_v3.20.08.27.zip $tempDir\AzureMigrate.zip" | Add-Content $cmdLogPath
 
@@ -231,9 +244,9 @@ Set-VMHost -EnableEnhancedSessionMode $true
 
 # Create the nested Windows VMs - from VHDs
 Write-Output "Create Hyper-V VMs"
-New-VM -Name rootboyslimweb1 -MemoryStartupBytes 4GB -BootDevice VHD -VHDPath "$vmdir\SmartHotelWeb1\SmartHotelWeb1.vhdx" -Path "$vmdir\SmartHotelWeb1" -Generation 2 -Switch $switchName 
-New-VM -Name rootboyslimweb2 -MemoryStartupBytes 4GB -BootDevice VHD -VHDPath "$vmdir\SmartHotelWeb2\SmartHotelWeb2.vhdx" -Path "$vmdir\SmartHotelWeb2" -Generation 2 -Switch $switchName
-New-VM -Name rootboyslimSQL1 -MemoryStartupBytes 4GB -BootDevice VHD -VHDPath "$vmdir\SmartHotelSQL1\SmartHotelSQL1.vhdx" -Path "$vmdir\SmartHotelSQL1" -Generation 2 -Switch $switchName
+New-VM -Name rootboyslimweb1 -MemoryStartupBytes 4GB -BootDevice VHD -VHDPath "$vmdir\rootboyslimWeb1\rootboyslimWeb1.vhdx" -Path "$vmdir\SmartHotelWeb1" -Generation 2 -Switch $switchName 
+New-VM -Name rootboyslimweb2 -MemoryStartupBytes 4GB -BootDevice VHD -VHDPath "$vmdir\rootboyslimWeb2\rootboyslimWeb2.vhdx" -Path "$vmdir\SmartHotelWeb2" -Generation 2 -Switch $switchName
+New-VM -Name rootboyslimSQL1 -MemoryStartupBytes 4GB -BootDevice VHD -VHDPath "$vmdir\rootboyslimSQL1\rootboyslimSQL1.vhdx" -Path "$vmdir\SmartHotelSQL1" -Generation 2 -Switch $switchName
 New-VM -Name UbuntuWAF      -MemoryStartupBytes 4GB -BootDevice VHD -VHDPath "$vmdir\UbuntuWAF\UbuntuWAF.vhdx"           -Path "$vmdir\UbuntuWAF"      -Generation 1 -Switch $switchName
 
 # Configure IP addresses (don't change the IPs! VM config depends on them)

@@ -102,12 +102,13 @@ Function Expand-Files {
     }
 }
 
-Function Follow-Redirect {
+Function Get-Redirect {
     Param (
         [string]$Url
     )
 
-    $webClientObject = New-Object System.Net.WebClient
+    ## Need to analyse this call. It's not used.
+    ##$webClientObject = New-Object System.Net.WebClient
     $webRequest = [System.Net.WebRequest]::create($Url)
     $webResponse = $webRequest.GetResponse()
     $actualUrl = $webResponse.ResponseUri.AbsoluteUri

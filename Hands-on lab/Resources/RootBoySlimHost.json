@@ -35,7 +35,7 @@
         "dmsSubnetName": "DMS",
         "customScriptFolder": "./sept-2020/",
         "customScriptUriScriptFileName": "BootstrapRootBoySlimHost.ps1",
-        "customScriptUri": "https://cloudworkshop.blob.core.windows.net/line-of-business-application-migration/sept-2020/BootstrapRootBoySlimHost.ps1"
+        "customScriptUri": "https://raw.githubusercontent.com/klawrawkz/MCW-Line-of-business-application-migration/master/Hands-on%20lab/Resources"
     },
     "resources": [
         {
