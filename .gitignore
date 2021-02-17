@@ -331,3 +331,12 @@ ASALocalRun/
 .DS_Store
 Hands-on lab/Resources/SmartHotelWeb1.zip
 .gitignore
+Hands-on-lab/Resources/SmartHotelWeb1.zip
+Hands-on-lab/Resources/deployment-diagnostics/deployment_operations.json
+Hands-on-lab/Resources/deployment-diagnostics/Deployment-Microsoft.Template-20210216130337.zip
+Hands-on-lab/Resources/deployment-diagnostics/Deployment-Microsoft.Template-20210216174657.zip
+Hands-on-lab/Resources/deployment-diagnostics/deployment.json
+Hands-on-lab/Resources/deployment-diagnostics/Deployment-Microsoft.Template-20210216130337/deployment_operations.json
+Hands-on-lab/Resources/deployment-diagnostics/Deployment-Microsoft.Template-20210216130337/deployment.json
+Hands-on-lab/Resources/deployment-diagnostics/Deployment-Microsoft.Template-20210216174657/deployment_operations.json
+Hands-on-lab/Resources/deployment-diagnostics/Deployment-Microsoft.Template-20210216174657/deployment.json
