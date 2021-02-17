@@ -33,7 +33,7 @@
         "dmsPrefix": "10.1.0.0/16",
         "dmsSubnetPrefix": "10.1.0.0/24",
         "dmsSubnetName": "DMS",
-        "customScriptFolder": "./Resources/",
+        "customScriptFolder": "./Resources",
         "customScriptUriScriptFileName": "BootstrapRootBoySlimHost.ps1",
         "customScriptUri": "https://raw.githubusercontent.com/klawrawkz/MCW-Line-of-business-application-migration/master/Hands-on-lab/Resources/BootstrapRootBoySlimHost.ps1"
     },                     
