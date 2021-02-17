@@ -31,20 +31,20 @@ Initialize-Disk -Number $disk.DiskNumber -PartitionStyle GPT
 New-Partition -DiskNumber $disk.DiskNumber -UseMaximumSize -DriveLetter F
 Format-Volume -DriveLetter F -FileSystem NTFS -NewFileSystemLabel DATA
 
+$opsSrc="https://rbsdemomgr8projstore.blob.core.windows.net/rbs-resources"
+
 # path for 7z
 $7zDir = "$opsDir\7z"
 New-Item -Path $7zDir -ItemType directory -Force
 
 # Download post-migration script and 7z
 Write-Output "Download with Bits"
-  $sourceFolder = "https://rbsdemomgr8projstore-microsoftrouting.file.core.windows.net/rbsmusicassets/migrate-resources"
-  $authToken="?sv=2020-02-10&ss=f&srt=co&sp=rwdlc&se=2026-02-18T05:00:00Z&st=2021-02-16T14:00:00Z&spr=https&sig=q83FMmbvbK01HOuazSj8ysvKF4hhV8Xa5UFqCfKrN7c%3D"
-# $sourceFolder = "https://rbsdemomgr8projstore.file.core.windows.net/rbsmusicassets/migrate-resources/?sv=2020-02-10&ss=f&srt=co&sp=rwdlc&se=2026-02-18T05:00:00Z&st=2021-02-16T14:00:00Z&spr=https&sig=q83FMmbvbK01HOuazSj8ysvKF4hhV8Xa5UFqCfKrN7c%3D"
+
 $downloads = @( `
-     "$sourceFolder/PostRebootConfigure.ps1$authToken" `
-    ,"$sourceFolder/7z/7za.exe$authToken" `
-    ,"$sourceFolder/7z/7za.dll$authToken" `
-    ,"$sourceFolder/7z/7zxa.dll$authToken" `
+     "$opsSrc/PostRebootConfigure.ps1" `
+    ,"$opsSrc/7z/7za.exe" `
+    ,"$opsSrc/7z/7za.dll" `
+    ,"$opsSrc/7z/7zxa.dll" `
     )
 
 $destinationFiles = @( `
