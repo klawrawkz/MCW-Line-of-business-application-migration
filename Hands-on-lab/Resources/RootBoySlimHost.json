@@ -33,9 +33,9 @@
         "dmsPrefix": "10.1.0.0/16",
         "dmsSubnetPrefix": "10.1.0.0/24",
         "dmsSubnetName": "DMS",
-        "customScriptFolder": "/Resources",
+        "customScriptFolder": "./Resources/",
         "customScriptUriScriptFileName": "BootstrapRootBoySlimHost.ps1",
-        "customScriptUri": "https://raw.githubusercontent.com/klawrawkz/MCW-Line-of-business-application-migration/master/Hands-on-lab"
+        "customScriptUri": "https://raw.githubusercontent.com/klawrawkz/MCW-Line-of-business-application-migration/master/Hands-on-lab/Resources/BootstrapRootBoySlimHost.ps1"
     },                     
     // "https%3A%2F%2Fraw.githubusercontent.com%2Fklawrawkz%2FMCW-Line-of-business-application-migration%2Fmaster%2FHands-on-lab%2FResources%2FRootBoySlimHost.json"
     "resources": [
