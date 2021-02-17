@@ -37,6 +37,7 @@
         "customScriptUriScriptFileName": "BootstrapRootBoySlimHost.ps1",
         "customScriptUri": "https://raw.githubusercontent.com/klawrawkz/MCW-Line-of-business-application-migration/master/Hands-on-lab"
     },                     
+    // "https%3A%2F%2Fraw.githubusercontent.com%2Fklawrawkz%2FMCW-Line-of-business-application-migration%2Fmaster%2FHands-on-lab%2FResources%2FRootBoySlimHost.json"
     "resources": [
         {
             "type": "Microsoft.Compute/virtualMachines",
