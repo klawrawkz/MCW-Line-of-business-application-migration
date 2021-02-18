@@ -2,6 +2,12 @@
 
 $ErrorActionPreference = 'SilentlyContinue'
 
+# Set TLS versions.
+Write-Output "Enable TLS for security."
+# Both calls are the same, so choose the less verbose one.
+#[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls, [Net.SecurityProtocolType]::Tls11, [Net.SecurityProtocolType]::Tls12, [Net.SecurityProtocolType]::Ssl3
+[Net.ServicePointManager]::SecurityProtocol = "Tls, Tls11, Tls12, Ssl3"
+
 # Disable IE ESC
 Write-Output "Disable IE Enhanced Security Configuration"
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}" -Name "IsInstalled" -Value 0
