@@ -33,9 +33,9 @@
         "dmsPrefix": "10.1.0.0/16",
         "dmsSubnetPrefix": "10.1.0.0/24",
         "dmsSubnetName": "DMS",
-        "customScriptFolder": "./rbs-resources",
+        "customScriptFolder": "Resources/",
         "customScriptUriScriptFileName": "BootstrapRootBoySlimHost.ps1",
-        "customScriptUri": "https%3A%2F%2Fraw.githubusercontent.com%2Fklawrawkz%2FMCW-Line-of-business-application-migration%2Fmaster%2FHands-on-lab%2FResources%2FBootstrapRootBoySlimHost.ps1"
+        "customScriptUri": "https://raw.githubusercontent.com/klawrawkz/MCW-Line-of-business-application-migration/master/Hands-on-lab/Resources/BootstrapRootBoySlimHost.ps1"
     },                         
     "resources": [
         {
@@ -114,11 +114,11 @@
                     "properties": {
                         "publisher": "Microsoft.Compute",
                         "type": "CustomScriptExtension",
-                        "typeHandlerVersion": "1.4",
+                        "typeHandlerVersion": "1.7",
                         "autoUpgradeMinorVersion": false,
                         "settings": {
                             "fileUris": [
-                                "https://rbsdemomgr8projstore.blob.core.windows.net/rbs-resources/BootstrapRootBoySlimHost.ps1"
+                                "https://raw.githubusercontent.com/klawrawkz/MCW-Line-of-business-application-migration/master/Hands-on-lab/Resources/BootstrapRootBoySlimHost.ps1"
                             ],
                             "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File BootstrapRootBoySlimHost.ps1"
                         }
