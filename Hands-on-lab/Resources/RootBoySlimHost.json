@@ -120,12 +120,13 @@
                         "settings": {
                             "fileUris": [
                                 "[concat(variables('storageAccountName'), '/', variables('storageAccountContainer'), '/', variables('customScriptFileName'))]"
-                            ]                            
+                            ],
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ',  variables('customScriptFileName'))]"
                         },
                         "protectedSettings": {
-                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ',  variables('customScriptFileName'))]",
-                            "storageAccountName": "https://rbsdemomgr8projstore.blob.core.windows.net",
-                            "storageAccountKey": "8B4gb9JAeUVGV5TB3CKqr+a5kEUe+GWzW9/4g1uGVYp5oa/T4uAMsTfJBxCHk4Mux6GY+dUNaB/o5t6pzHpIYA=="
+                            //"commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ',  variables('customScriptFileName'))]",
+                            //"storageAccountName": "https://rbsdemomgr8projstore.blob.core.windows.net",
+                            //"storageAccountKey": "8B4gb9JAeUVGV5TB3CKqr+a5kEUe+GWzW9/4g1uGVYp5oa/T4uAMsTfJBxCHk4Mux6GY+dUNaB/o5t6pzHpIYA=="
                         }
                     }
                 }
