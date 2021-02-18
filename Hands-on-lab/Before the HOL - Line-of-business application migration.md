@@ -78,7 +78,7 @@ Duration: 60 minutes
 
     <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fklawrawkz%2FMCW-Line-of-business-application-migration%2Fmaster%2FHands-on-lab%2FResources%2FRootBoySlimHost.json" target="_blank">![Blah blah blah.](images/BeforeTheHOL/deploy-to-azure.png "Blah blah blah blah")</a>
     
-     <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Frbsdemomgr8projstore.blob.core.windows.net%2Frbs-resources%2FRootBoySlimHost.json" target="_blank">![Button to deploy the RootBoySlimHost template to Azure.](images/BeforeTheHOL/deploy-to-azure.png "Deploy the RootBoySlimHost template to Azure")</a>
+     <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Frbsdemomgr8projstore.blob.core.windows.net%2Frbs-resources%2FRootBoySlimHost.json?sv=2020-02-10&ss=bf&srt=sco&sp=rwlac&se=2031-02-19T02:29:12Z&st=2021-02-18T18:29:12Z&spr=https&sig=tnzkxWbW%2BSBU3hHc3Vy58JeFCxOIvUEqMzz0pCeHcuY%3D" target="_blank">![Button to deploy the RootBoySlimHost template to Azure.](images/BeforeTheHOL/deploy-to-azure.png "Deploy the RootBoySlimHost template to Azure")</a>
 
     > **Note:** The template will take around 6-7 minutes to deploy. Once template deployment is complete, several additional scripts are executed to bootstrap the lab environment. **Allow at least 1 hour from the start of template deployment for the scripts to run.**
 
