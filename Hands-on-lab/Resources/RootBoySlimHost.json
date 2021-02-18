@@ -114,6 +114,7 @@
                         "displayName": "ConfigureHost"
                     },
                     "properties": {
+                        "minimumTlsVersion": "1.2",
                         "publisher": "Microsoft.Compute",
                         "type": "CustomScriptExtension",
                         "typeHandlerVersion": "1.7",
