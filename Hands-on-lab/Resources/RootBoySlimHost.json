@@ -36,7 +36,6 @@
         "storageAccountName": "https://rbsdemomgr8projstore.blob.core.windows.net",
         "storageAccountContainer":"rbs-resources",
         "customScriptFileName": "BootstrapRootBoySlimHost.ps1",
-        //"customScriptUri": "https://rbsdemomgr8projstore.blob.core.windows.net/rbs-resources", // /BootstrapRootBoySlimHost.ps1"
         "customScriptAppName":"config-rbApp"
     },
     "resources": [
@@ -114,7 +113,6 @@
                         "displayName": "ConfigureHost"
                     },
                     "properties": {
-                        "minimumTlsVersion": "1.2",
                         "publisher": "Microsoft.Compute",
                         "type": "CustomScriptExtension",
                         "typeHandlerVersion": "1.7",
@@ -122,8 +120,7 @@
                         "settings": {
                             "fileUris": [
                                 "[concat(variables('storageAccountName'), '/', variables('storageAccountContainer'), '/', variables('customScriptFileName'))]"
-                            ]
-                            //"commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('customScriptFolder'), '/', variables('customScriptFileName'))]"
+                            ]                            
                         },
                         "protectedSettings": {
                             "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ',  variables('customScriptFileName'))]",
