@@ -33,11 +33,10 @@
         "dmsPrefix": "10.1.0.0/16",
         "dmsSubnetPrefix": "10.1.0.0/24",
         "dmsSubnetName": "DMS",
-        "customScriptFolder": "./rbs-resources",
         "storageAccountName": "https://rbsdemomgr8projstore.blob.core.windows.net",
         "storageAccountContainer":"rbs-resources",
         "customScriptFileName": "BootstrapRootBoySlimHost.ps1",
-        "customScriptUri": "https://rbsdemomgr8projstore.blob.core.windows.net/rbs-resources", // /BootstrapRootBoySlimHost.ps1"
+        //"customScriptUri": "https://rbsdemomgr8projstore.blob.core.windows.net/rbs-resources", // /BootstrapRootBoySlimHost.ps1"
         "customScriptAppName":"config-rbApp"
     },
     "resources": [
