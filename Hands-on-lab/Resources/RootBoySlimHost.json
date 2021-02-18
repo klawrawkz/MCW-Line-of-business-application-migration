@@ -1,5 +1,5 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "adminUsername": {
@@ -34,10 +34,12 @@
         "dmsSubnetPrefix": "10.1.0.0/24",
         "dmsSubnetName": "DMS",
         "customScriptFolder": "./rbs-resources",
-        "customScriptUriScriptFileName": "BootstrapRootBoySlimHost.ps1",
-        "customScriptUri": "https://rbsdemomgr8projstore.blob.core.windows.net/rbs-resources/BootstrapRootBoySlimHost.ps1"
-    },                     
-    // Cannot download from GitHub raw file due to TLS issue. "https%3A%2F%2Fraw.githubusercontent.com%2Fklawrawkz%2FMCW-Line-of-business-application-migration%2Fmaster%2FHands-on-lab%2FResources%2FRootBoySlimHost.json"
+        "storageAccountName": "https://rbsdemomgr8projstore.blob.core.windows.net",
+        "storageAccountContainer":"rbs-resources",
+        "customScriptFileName": "BootstrapRootBoySlimHost.ps1",
+        "customScriptUri": "https://rbsdemomgr8projstore.blob.core.windows.net/rbs-resources", // /BootstrapRootBoySlimHost.ps1"
+        "customScriptAppName":"config-rbApp"
+    },
     "resources": [
         {
             "type": "Microsoft.Compute/virtualMachines",
@@ -102,8 +104,8 @@
             ],
             "resources": [
                 {
-                    "name": "CustomScriptExtension",
-                    "type": "extensions",
+                    "name": "[concat(variables('RootBoySlimhostVMname'),'/', variables('customScriptAppName'))]",
+                    "type": "Microsoft.Compute/virtualMachines/extensions",
                     "apiVersion": "2016-03-30",
                     "location": "[resourceGroup().location]",
                     "dependsOn": [
@@ -115,13 +117,18 @@
                     "properties": {
                         "publisher": "Microsoft.Compute",
                         "type": "CustomScriptExtension",
-                        "typeHandlerVersion": "1.4",
-                        "autoUpgradeMinorVersion": false,
+                        "typeHandlerVersion": "1.7",
+                        "autoUpgradeMinorVersion": true,
                         "settings": {
                             "fileUris": [
-                                "[variables('customScriptUri')]"
-                            ],
-                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('customScriptFolder'), '/', variables('customScriptUriScriptFileName'))]"
+                                "[concat(variables('storageAccountName'), '/', variables('storageAccountContainer'), '/', variables('customScriptFileName'))]"
+                            ]
+                            //"commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('customScriptFolder'), '/', variables('customScriptFileName'))]"
+                        },
+                        "protectedSettings": {
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ',  variables('customScriptFileName'))]",
+                            "storageAccountName": "https://rbsdemomgr8projstore.blob.core.windows.net",
+                            "storageAccountKey": "8B4gb9JAeUVGV5TB3CKqr+a5kEUe+GWzW9/4g1uGVYp5oa/T4uAMsTfJBxCHk4Mux6GY+dUNaB/o5t6pzHpIYA=="
                         }
                     }
                 }

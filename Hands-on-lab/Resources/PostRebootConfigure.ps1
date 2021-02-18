@@ -37,6 +37,10 @@ Function Set-VMNetworkConfiguration {
         [Switch]$Dhcp
     )
 
+    # Set TLS versions.
+    Write-Output "Enable TLS for security."
+    [Net.ServicePointManager]::SecurityProtocol = "Tls, Tls11, Tls12, Ssl3"
+
     $VM = Get-WmiObject -Namespace 'root\virtualization\v2' -Class 'Msvm_ComputerSystem' | Where-Object { $_.ElementName -eq $NetworkAdapter.VMName } 
     $VMSettings = $vm.GetRelated('Msvm_VirtualSystemSettingData') | Where-Object { $_.VirtualSystemType -eq 'Microsoft:Hyper-V:System:Realized' }    
     $VMNetAdapters = $VMSettings.GetRelated('Msvm_SyntheticEthernetPortSettingData') 
@@ -163,7 +167,7 @@ Function Rearm-VM {
     Invoke-Command -ComputerName $ip -ScriptBlock {  #DevSkim: ignore DS104456 
         slmgr.vbs /rearm
         net accounts /maxpwage:unlimited
-        Restart-Computer -Force 
+        Restart-Computer -Force
     } -Credential $localcredential
 
     Write-Output "Re-arm complete"
@@ -187,9 +191,32 @@ New-Item -Path $vmDir -ItemType directory -Force
 Write-Output "Remove PostRebootConfigure scheduled task"
 Unregister-ScheduledTask -TaskName "SetUpVMs" -Confirm:$false
 
+
+# # Download via Azure PowerShell
+# $StorageAccountName = 'https://rbsdemomgr8projstore.blob.core.windows.net'
+# $StorageAccountKey = Get-AzureStorageKey -StorageAccountName $StorageAccountName
+# $StorageContext = New-AzureStorageContext $StorageAccountName -StorageAccountKey $StorageAccountKey.Primary
+# $FileName = 'azcopy_windows_amd64_10.1.1.zip'
+# $OutputPath = 'C:\Temp'
+# $ContainerName  = 'rbs-resources'
+# Get-AzureStorageBlobContent -Blob $FilebName -Container $ContainerName -Destination $OutputPath -Context $StorageContext
+
+
+#blob connection string.
+# BlobEndpoint='https://rbsdemomgr8projstore.blob.core.windows.net/;QueueEndpoint=https://rbsdemomgr8projstore.queue.core.windows.net/;FileEndpoint=https://rbsdemomgr8projstore.file.core.windows.net/;TableEndpoint=https://rbsdemomgr8projstore.table.core.windows.net/;SharedAccessSignature=sv=2020-02-10&ss=bf&srt=sco&sp=rwlac&se=2031-02-19T02:29:12Z&st=2021-02-18T18:29:12Z&spr=https&sig=tnzkxWbW%2BSBU3hHc3Vy58JeFCxOIvUEqMzz0pCeHcuY%3D'
+
+#blob SAS token.
+$sasToken='?sv=2020-02-10&ss=bf&srt=sco&sp=rwlac&se=2031-02-19T02:29:12Z&st=2021-02-18T18:29:12Z&spr=https&sig=tnzkxWbW%2BSBU3hHc3Vy58JeFCxOIvUEqMzz0pCeHcuY%3D'
+
+#blob service SAS URL.
+# 'https://rbsdemomgr8projstore.blob.core.windows.net/?sv=2020-02-10&ss=bf&srt=sco&sp=rwlac&se=2031-02-19T02:29:12Z&st=2021-02-18T18:29:12Z&spr=https&sig=tnzkxWbW%2BSBU3hHc3Vy58JeFCxOIvUEqMzz0pCeHcuY%3D'
+
+# file service SAS URL.
+# 'https://rbsdemomgr8projstore.file.core.windows.net/?sv=2020-02-10&ss=bf&srt=sco&sp=rwlac&se=2031-02-19T02:29:12Z&st=2021-02-18T18:29:12Z&spr=https&sig=tnzkxWbW%2BSBU3hHc3Vy58JeFCxOIvUEqMzz0pCeHcuY%3D'
+
 # Download AzCopy. We won't use the aka.ms/downloadazcopy link in case of breaking changes in later versions
 Write-Output "Download and install AzCopy"
-$azCopyUrl = "https://rbsdemomgr8projstore.blob.core.windows.net/rbs-resources/azcopy_windows_amd64_10.1.1.zip"
+$azCopyUrl = "https://rbsdemomgr8projstore.blob.core.windows.net/rbs-resources/azcopy_windows_amd64_10.1.1.zip"+$sasToken
 
 $azcopyZip = "$opsDir\azcopy.zip"
 Start-BitsTransfer -Source $azcopyUrl -Destination $azcopyZip
@@ -210,11 +237,11 @@ Write-Output "Download nested VM zip files using AzCopy"
 
 $sourceFolder="https://rbsdemomgr8projstore.blob.core.windows.net/rbs-resources"
 
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/rootboyslimweb1.zip $tempDir\rootboyslimweb1.zip" | Add-Content $cmdLogPath
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/rootboyslimweb2.zip $tempDir\rootboyslimweb2.zip" | Add-Content $cmdLogPath
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/rootboyslimSQL1.zip $tempDir\rootboyslimSQL1.zip" | Add-Content $cmdLogPath
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/UbuntuWAF.zip $tempDir\UbuntuWAF.zip" | Add-Content $cmdLogPath
-cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/AzureMigrateAppliance_v3.20.08.27.zip $tempDir\AzureMigrate.zip" | Add-Content $cmdLogPath
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/rootboyslimweb1.zip+$sasToken $tempDir\rootboyslimweb1.zip" | Add-Content $cmdLogPath
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/rootboyslimweb2.zip+$sasToken $tempDir\rootboyslimweb2.zip" | Add-Content $cmdLogPath
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/rootboyslimSQL1.zip+$sasToken $tempDir\rootboyslimSQL1.zip" | Add-Content $cmdLogPath
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/UbuntuWAF.zip+$sasToken $tempDir\UbuntuWAF.zip" | Add-Content $cmdLogPath
+cmd /c "$azcopy cp --check-md5 FailIfDifferentOrMissing $sourceFolder/AzureMigrateAppliance_v3.20.08.27.zip+$sasToken $tempDir\AzureMigrate.zip" | Add-Content $cmdLogPath
 
 # Unzip the VMs
 Write-Output "Unzip nested VMs"
