@@ -36,8 +36,7 @@
         "customScriptFolder": "./rbs-resources",
         "customScriptUriScriptFileName": "BootstrapRootBoySlimHost.ps1",
         "customScriptUri": "https%3A%2F%2Fraw.githubusercontent.com%2Fklawrawkz%2FMCW-Line-of-business-application-migration%2Fmaster%2FHands-on-lab%2FResources%2FBootstrapRootBoySlimHost.ps1"
-    },                     
-    // Cannot download from GitHub raw file due to TLS issue. "https%3A%2F%2Fraw.githubusercontent.com%2Fklawrawkz%2FMCW-Line-of-business-application-migration%2Fmaster%2FHands-on-lab%2FResources%2FRootBoySlimHost.json"
+    },                         
     "resources": [
         {
             "type": "Microsoft.Compute/virtualMachines",
