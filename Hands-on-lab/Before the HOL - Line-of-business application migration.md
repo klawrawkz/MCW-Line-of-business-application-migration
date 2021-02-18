@@ -76,7 +76,7 @@ Duration: 60 minutes
 
     You can deploy the template by selecting the 'Deploy to Azure' button below. You will need to create a new resource group. The suggested resource group name to use is **RootBoySlimHostRG**. You will also need to select a location close to you to deploy the template to. Then choose **Review + create** followed by **Create**. 
 
-    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fklawrawkz%2FMCW-Line-of-business-application-migration%2Fmaster%2FHands-on-lab%2FResources%2FRootBoySlimHost.json" target="_blank">![Blah blah blah.](images/BeforeTheHOL/deploy-to-azure.png "Deploy the RootBoySlimHost template to Azure")</a>
+    <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fklawrawkz%2FMCW-Line-of-business-application-migration%2Fmaster%2FHands-on-lab%2FResources%2FRootBoySlimHost.json" target="_blank">![Blah blah blah.](images/BeforeTheHOL/deploy-to-azure.png "Blah blah blah blah")</a>
     
      <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fhttps://raw.githubusercontent.com/klawrawkz/MCW-Line-of-business-application-migration/master/Hands-on-lab/Resources/RootBoySlimHost.json" target="_blank">![Button to deploy the RootBoySlimHost template to Azure.](images/BeforeTheHOL/deploy-to-azure.png "Deploy the RootBoySlimHost template to Azure")</a>
 
